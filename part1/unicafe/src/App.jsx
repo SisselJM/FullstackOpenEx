@@ -1,6 +1,13 @@
 import { useState } from 'react'
 
 const Statistics = (props) => {
+  if (props.all === 0) {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
   return (
   <div>
     <h1>Statistics</h1>
