@@ -17,6 +17,8 @@ const App = () => {
   const [points, setPoints] = useState(anecdotes.map(() => 0))
   //console.log(points)
 
+  const [top, setTop] = useState(0)
+
   const getRandom = () => {
     const max = anecdotes.length
     return Math.floor(Math.random()*max)
@@ -36,16 +38,27 @@ const App = () => {
     const copy = [...points]
     copy[selected] += 1
     setPoints(copy)
+    // get index of top
+    const topIndex = copy.indexOf(Math.max(...copy))
+    //console.log(topIndex)
+    setTop(topIndex)
   }
+
+  
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
       <p>
         <button onClick={vote}>Vote</button>
         <button onClick={getRandomAnecdote}>Next anecdote</button>
       </p>
+
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[top]}</p>
+      <p>has {points[top]} votes</p>
     </div>
   )
 }
