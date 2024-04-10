@@ -8,7 +8,19 @@ function App() {
 
   return (
     <div>
-      code here
+      <h1>Give feedback</h1>
+      <p>
+        <button onClick={() => setGood(good + 1)}>good</button>
+        <button>neutral</button>
+        <button>bad</button>
+      </p>
+      <h1>Statistics</h1>
+      <p>Good {good}</p>
+      <p>Neutral {neutral}</p>
+      <p>Bad {bad}</p>
+      <p>All {good+neutral+bad}</p>
+      <p>Averge {good}</p>
+      <p>Positive {good}</p>
     </div>
   )
 }
