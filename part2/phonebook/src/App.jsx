@@ -25,6 +25,14 @@ const PersonForm = (props) => {
   )
 }
 
+const Persons = ({persons}) => {
+  return (
+      persons.map(person => 
+        <Person key={person.name} person={person} />
+      )
+  )
+}
+
 function App() {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '12345678', id: 1 },
@@ -86,11 +94,7 @@ function App() {
       />
 
       <h3>Numbers</h3>
-      {
-        result.map(person => 
-          <Person key={person.name} person={person} />
-        )
-      }
+      <Persons persons={result} />
     </div>
     <div>debug: {newName}</div>
     </>
