@@ -2,6 +2,13 @@ import { useState } from 'react'
 
 const Person = ({ person }) => <p>{person.name} {person.number}</p>
 
+const Filter = (props) => {
+  //console.log(props)
+  return (
+    <div>Filter shown with <input value={props.value} onChange={props.onChange} /></div>
+  )
+}
+
 function App() {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '12345678', id: 1 },
@@ -24,7 +31,7 @@ function App() {
       name: newName,
       number: newNumber
     }
-    console.log(person)
+    //console.log(person)
     setPersons(persons.concat(person))
     setNewName('')
     setNewNumber('')
@@ -52,7 +59,7 @@ function App() {
     <>
     <div>
       <h2>Phonebook</h2>
-      <div>Filter shown with <input value={filterValue} onChange={handleFilterChange} /></div>
+      <Filter value={filterValue} onChange={handleFilterChange} />
       <form>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
