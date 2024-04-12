@@ -39,7 +39,10 @@ function App() {
         //console.log('promise')
         setPersons(reponse)
       })
-  }, [])
+      .catch(() => {
+        alert('Get persons failed!')
+      })
+}, [])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -50,25 +53,31 @@ function App() {
       }
       var newPerson = existing[0]
       newPerson.number = newNumber
-      console.log('id: ', newPerson.id)
+      //console.log('id: ', newPerson.id)
       personService.update(newPerson.id, newPerson)
         .then((updated) => {
-          console.log('updated: ', updated)
+          //console.log('updated: ', updated)
           setPersons(persons.map(p=> p.id !== newPerson.id ? p : updated))
         })
-    }
-    const person = {
-      name: newName,
-      number: newNumber
-    }
-    //console.log(person)
-    personService.create(person)
-      .then((response) => {
-        setPersons(persons.concat(response))
+        .catch(() => {
+          alert('Update failed!')
+        })
+    } else {
+      const person = {
+        name: newName,
+        number: newNumber
       }
-      )
-      setNewName('')
-      setNewNumber('')
+      //console.log(person)
+      personService.create(person)
+        .then((response) => {
+          setPersons(persons.concat(response))
+        })
+        .catch(() => {
+          alert('Create failed!')
+        })
+    }
+    setNewName('')
+    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
@@ -100,7 +109,10 @@ function App() {
           setPersons(newPersons)
           }
       })
-  }
+      .catch(() => {
+        alert('Delete failed!')
+      })
+}
 
   const result = persons.filter(p => p.name.toLowerCase().includes(filterValue.toLowerCase()))
   //console.log('filtered: ', result)
