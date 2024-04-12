@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import personService from './services/persons'
 
-const Person = ({ person }) => <p>{person.name} {person.number}</p>
+const Person = ({ person, onDeleteEvent }) => {
+  return (
+  <p>
+    {person.name} {person.number} <button onClick={onDeleteEvent}>Delete</button>
+  </p>
+  )
+}
 
 const Filter = (props) => {
   //console.log(props)
@@ -29,7 +35,7 @@ const PersonForm = (props) => {
 const Persons = ({persons}) => {
   return (
       persons.map(person => 
-        <Person key={person.name} person={person} />
+        <Person key={person.name} person={person} onDeleteEvent={person.onDeleteEvent} />
       )
   )
 }
@@ -84,6 +90,13 @@ function App() {
     setFilterValue(event.target.value)
   }
 
+  const handleDelete = (id) => {
+    debugger
+    console.log(id)
+    //deletePerson
+    //setPersons(persons.map)
+  }
+
   const result = persons.filter(p => p.name.toLowerCase().includes(filterValue.toLowerCase()))
   //console.log('filtered: ', result)
 
@@ -102,7 +115,11 @@ function App() {
       />
 
       <h3>Numbers</h3>
-      <Persons persons={result} />
+      {
+        persons.map(person => 
+          <Person person={person} onDeleteEvent={() => handleDelete(person.id)} key={person.id} />
+        )
+      }
     </div>
     <div>debug: {newName}</div>
     </>
