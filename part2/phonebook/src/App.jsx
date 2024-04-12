@@ -54,8 +54,9 @@ function App() {
     }
     //console.log(person)
     personService.create(person)
-      .then(
-        setPersons(persons.concat(person))
+      .then((response) => {
+        setPersons(persons.concat(response))
+      }
       )
       setNewName('')
       setNewNumber('')
@@ -77,9 +78,16 @@ function App() {
   }
 
   const handleDelete = (id) => {
-    console.log(id)
-    //deletePerson
-    //setPersons(persons.map)
+    //console.log(id)
+    personService.deletePerson(id)
+      .then(() => {
+        const index = persons.findIndex(p => p.id === id)
+        if (index !== -1) {
+          const newPersons = [...persons.slice(0, index), ...persons.slice(index +1)]
+          //console.log(newPersons)
+          setPersons(newPersons)
+          }
+      })
   }
 
   const result = persons.filter(p => p.name.toLowerCase().includes(filterValue.toLowerCase()))
