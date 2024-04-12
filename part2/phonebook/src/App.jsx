@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import personService from './services/persons'
 import Person from './components/person'
+import './index.css'
 
 
 const Filter = (props) => {
@@ -31,6 +32,7 @@ function App() {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterValue, setFilterValue] = useState('')
+  const [displayMessage, setDisplayMessage] = useState('')
 
   useEffect(() => {
     //console.log('effect')
@@ -58,9 +60,11 @@ function App() {
         .then((updated) => {
           //console.log('updated: ', updated)
           setPersons(persons.map(p=> p.id !== newPerson.id ? p : updated))
+          msg = 'Updated'
         })
         .catch(() => {
           alert('Update failed!')
+          return
         })
     } else {
       const person = {
@@ -74,8 +78,14 @@ function App() {
         })
         .catch(() => {
           alert('Create failed!')
+          return
         })
     }
+    var msg = existing.length > 0 ? 'Updated' : 'Created'
+    setDisplayMessage(`${msg} ${newName}`)
+    setTimeout(() => {
+      setDisplayMessage(null)
+    }, 5000)
     setNewName('')
     setNewNumber('')
   }
@@ -112,7 +122,18 @@ function App() {
       .catch(() => {
         alert('Delete failed!')
       })
-}
+  }
+
+  const Notification = ({message}) => {
+    if (message === null) {
+      return null
+    }
+    return (
+      <div className='notification'>
+        {message}
+      </div>
+    )
+  }
 
   const result = persons.filter(p => p.name.toLowerCase().includes(filterValue.toLowerCase()))
   //console.log('filtered: ', result)
@@ -121,6 +142,7 @@ function App() {
     <>
     <div>
       <h2>Phonebook</h2>
+      <Notification message={displayMessage} />
 
       <Filter value={filterValue} onChange={handleFilterChange} />
 
