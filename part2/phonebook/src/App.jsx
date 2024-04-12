@@ -42,7 +42,7 @@ function App() {
         setPersons(reponse)
       })
       .catch(() => {
-        setDisplayMessage('Get persons failed!')
+        displayMessage5sec('Get persons failed!')
       })
 }, [])
 
@@ -62,7 +62,7 @@ function App() {
           setPersons(persons.map(p=> p.id !== newPerson.id ? p : updated))
         })
         .catch(() => {
-          setDisplayMessage('Update failed!')
+          displayMessage5sec('Update failed!')
           return
         })
     } else {
@@ -76,17 +76,21 @@ function App() {
           setPersons(persons.concat(response))
         })
         .catch(() => {
-          setDisplayMessage('Create failed!')
+          displayMessage5sec('Create failed!')
           return
         })
     }
     var msg = existing.length > 0 ? 'Updated' : 'Created'
-    setDisplayMessage(`${msg} ${newName}`)
+    displayMessage5sec(`${msg} ${newName}`)
+    setNewName('')
+    setNewNumber('')
+  }
+
+  const displayMessage5sec = (msg) => {
+    setDisplayMessage(`${msg}`)
     setTimeout(() => {
       setDisplayMessage(null)
     }, 5000)
-    setNewName('')
-    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
@@ -113,13 +117,14 @@ function App() {
       .then(() => {
         const index = persons.findIndex(p => p.id === id)
         if (index !== -1) {
-          const newPersons = [...persons.slice(0, index), ...persons.slice(index +1)]
-          //console.log(newPersons)
-          setPersons(newPersons)
+            const newPersons = [...persons.slice(0, index), ...persons.slice(index +1)]
+            //console.log(newPersons)
+            setPersons(newPersons)
+            displayMessage5sec('Deleted ok')
           }
       })
       .catch(() => {
-        setDisplayMessage('Delete failed!')
+        displayMessage5sec('Delete failed!')
       })
   }
 
