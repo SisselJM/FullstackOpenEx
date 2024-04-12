@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import personService from './services/persons'
 
 const Person = ({ person }) => <p>{person.name} {person.number}</p>
 
@@ -62,9 +63,12 @@ function App() {
       number: newNumber
     }
     //console.log(person)
-    setPersons(persons.concat(person))
-    setNewName('')
-    setNewNumber('')
+    personService.create(person)
+      .then(
+        setPersons(persons.concat(person))
+      )
+      setNewName('')
+      setNewNumber('')
   }
 
   const handleNameChange = (event) => {
