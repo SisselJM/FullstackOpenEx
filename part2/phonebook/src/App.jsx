@@ -45,8 +45,17 @@ function App() {
     event.preventDefault()
     const existing = persons.filter((p) => p.name === newName)
     if (existing.length > 0) {
-      alert(`${newName} is already added to phonebook`)
-      return
+      if (!window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        return
+      }
+      var newPerson = existing[0]
+      newPerson.number = newNumber
+      console.log('id: ', newPerson.id)
+      personService.update(newPerson.id, newPerson)
+        .then((updated) => {
+          console.log('updated: ', updated)
+          setPersons(persons.map(p=> p.id !== newPerson.id ? p : updated))
+        })
     }
     const person = {
       name: newName,
