@@ -79,6 +79,9 @@ function App() {
 
   const handleDelete = (id) => {
     //console.log(id)
+    if (!window.confirm(`Do you really want to delete person with id ${id}`)) {
+      return
+    }
     personService.deletePerson(id)
       .then(() => {
         const index = persons.findIndex(p => p.id === id)
