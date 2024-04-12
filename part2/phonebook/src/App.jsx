@@ -42,7 +42,7 @@ function App() {
         setPersons(reponse)
       })
       .catch(() => {
-        alert('Get persons failed!')
+        setDisplayMessage('Get persons failed!')
       })
 }, [])
 
@@ -60,10 +60,9 @@ function App() {
         .then((updated) => {
           //console.log('updated: ', updated)
           setPersons(persons.map(p=> p.id !== newPerson.id ? p : updated))
-          msg = 'Updated'
         })
         .catch(() => {
-          alert('Update failed!')
+          setDisplayMessage('Update failed!')
           return
         })
     } else {
@@ -77,7 +76,7 @@ function App() {
           setPersons(persons.concat(response))
         })
         .catch(() => {
-          alert('Create failed!')
+          setDisplayMessage('Create failed!')
           return
         })
     }
@@ -120,7 +119,7 @@ function App() {
           }
       })
       .catch(() => {
-        alert('Delete failed!')
+        setDisplayMessage('Delete failed!')
       })
   }
 
