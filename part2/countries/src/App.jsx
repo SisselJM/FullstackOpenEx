@@ -4,10 +4,11 @@ import countriesService from './services/countries'
 const Country = (props) => {
   console.log(props)
   const country = props.country
+  const capital = country.capital[0]
   return (
     <>
     <h3>{country.name.common}</h3>
-    <p>Capital {country.capital[0]}</p>
+    <p>Capital {capital}</p>
     <p>Area {country.area}</p>
     <h4>Languages:</h4>
     <ul>
@@ -18,6 +19,11 @@ const Country = (props) => {
       }
     </ul>
     <img src={country.flags.png} />
+    
+    <h4>Weather in {capital}</h4>
+    <p>Temperature TODO</p>
+    <p>Image TODO</p>
+    <p>Wind TODO</p>
     </>
   )
 }
