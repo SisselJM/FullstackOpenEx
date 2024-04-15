@@ -6,8 +6,14 @@ const CountriesList = (props) => {
   //console.log(props.countries.length)
   if (props.countries.length > 10) {
     return (
+      <p>Too many matches, specifiy another filter</p>
+    )
+  }
+  else if (props.countries.length === 1) {
+    const country = props.countries[0]
+    return (
       <>
-        <p>Too many matches, specifiy another filter</p>
+      <p>{country.name.common}</p>
       </>
     )
   }
