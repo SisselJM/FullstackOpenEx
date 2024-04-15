@@ -13,7 +13,18 @@ const CountriesList = (props) => {
     const country = props.countries[0]
     return (
       <>
-      <p>{country.name.common}</p>
+      <h3>{country.name.common}</h3>
+      <p>Capital {country.capital[0]}</p>
+      <p>Area {country.area}</p>
+      <h4>Languages:</h4>
+      <ul>
+        {
+          Object.values(country.languages).map(c => 
+            <li key={c}>{c}</li>
+          )
+        }
+      </ul>
+      <img src={country.flags.png} />
       </>
     )
   }
