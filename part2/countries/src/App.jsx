@@ -39,7 +39,7 @@ const CountriesList = (props) => {
     <ul>
       {
         props.countries.map(c =>          
-          <li key={c.name.common}>{c.name.common}</li>            
+          <li key={c.name.common}>{c.name.common} <button onClick={() => props.onSelect([c])}>Show</button></li>            
         )
       }
     </ul>    
@@ -71,6 +71,7 @@ function App() {
     setCountries(filteredCountries)
   }
 
+  
   return (
     <>
       <p>
@@ -78,7 +79,7 @@ function App() {
       </p>
       {countries.length === 1 ? 
       <Country country={countries[0]} /> :
-      <CountriesList countries={countries} onShowOneCountry={showOneCountry()} />
+      <CountriesList countries={countries} onSelect={setCountries} />
     }
     </>
   )
