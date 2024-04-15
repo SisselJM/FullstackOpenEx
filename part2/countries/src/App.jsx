@@ -1,6 +1,27 @@
 import { useEffect, useState } from 'react'
 import countriesService from './services/countries'
 
+const Country = (props) => {
+  console.log(props)
+  const country = props.country
+  return (
+    <>
+    <h3>{country.name.common}</h3>
+    <p>Capital {country.capital[0]}</p>
+    <p>Area {country.area}</p>
+    <h4>Languages:</h4>
+    <ul>
+      {
+        Object.values(country.languages).map(c => 
+          <li key={c}>{c}</li>
+        )
+      }
+    </ul>
+    <img src={country.flags.png} />
+    </>
+  )
+}
+
 const CountriesList = (props) => {
   //console.log(props)
   //console.log(props.countries.length)
@@ -9,23 +30,9 @@ const CountriesList = (props) => {
       <p>Too many matches, specifiy another filter</p>
     )
   }
-  else if (props.countries.length === 1) {
-    const country = props.countries[0]
+  else if (props.countries.length === 0) {
     return (
-      <>
-      <h3>{country.name.common}</h3>
-      <p>Capital {country.capital[0]}</p>
-      <p>Area {country.area}</p>
-      <h4>Languages:</h4>
-      <ul>
-        {
-          Object.values(country.languages).map(c => 
-            <li key={c}>{c}</li>
-          )
-        }
-      </ul>
-      <img src={country.flags.png} />
-      </>
+      <p>No countries found</p>
     )
   }
   return (
@@ -69,7 +76,10 @@ function App() {
       <p>
         Find countries <input value={searchName} onChange={searchCountries} />
       </p>
-      <CountriesList countries={countries} />
+      {countries.length === 1 ? 
+      <Country country={countries[0]} /> :
+      <CountriesList countries={countries} onShowOneCountry={showOneCountry()} />
+    }
     </>
   )
 }
