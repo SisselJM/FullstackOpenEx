@@ -38,10 +38,11 @@ function App() {
     //console.log('effect')
     personService.getAll()
       .then(reponse => {
-        //console.log('promise')
+        //console.log(reponse)
         setPersons(reponse)
       })
       .catch(() => {
+        console.log('Get persons failed!')
         displayMessage5sec('Get persons failed!')
       })
 }, [])
@@ -138,7 +139,7 @@ function App() {
       </div>
     )
   }
-
+  //console.log('persons: ', persons)
   const result = persons.filter(p => p.name.toLowerCase().includes(filterValue.toLowerCase()))
   //console.log('filtered: ', result)
 
