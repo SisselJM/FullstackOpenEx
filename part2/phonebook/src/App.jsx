@@ -62,8 +62,9 @@ function App() {
           //console.log('updated: ', updated)
           setPersons(persons.map(p=> p.id !== newPerson.id ? p : updated))
         })
-        .catch(() => {
-          displayMessage5sec('Update failed!')
+        .catch((error) => {
+          console.log('Update failed!')
+          displayMessage5sec(error.response.data.error)
           return
         })
     } else {
@@ -76,8 +77,9 @@ function App() {
         .then((response) => {
           setPersons(persons.concat(response))
         })
-        .catch(() => {
-          displayMessage5sec('Create failed!')
+        .catch((error) => {
+          console.log('Create failed!')
+          displayMessage5sec(error.response.data.error)
           return
         })
     }
