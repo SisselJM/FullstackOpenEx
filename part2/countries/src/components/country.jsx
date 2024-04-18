@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import weatherService from './../services/weather'
 
 function Country(props) {
-    const [weatherData, setWeatherData] = useState({ temperature: '', icon: '' });
+    const [weatherData, setWeatherData] = useState({ temperature: '', icon: '', wind: '' });
     //console.log(props)
     const country = props.country
     const capital = country.capital[0]
     
     useEffect(() => {
-      const testcapital = 'London,uk'
+      const capital = 'London,uk'
       //weatherService.getByCity(capital)
       weatherService.getLondon()
       .then(result => {
@@ -43,9 +43,9 @@ function Country(props) {
       <img src={country.flags.png} />
       
       <h4>Weather in {capital}</h4>
-      <p>Temperature {weatherData.temperature}</p>
+      <p>Temperature {weatherData.temperature} Celcius</p>
       <img src={weatherData.icon} />
-      <p>Wind TODO</p>
+      <p>Wind {weatherData.wind} m/s</p>
       </>
     )
   }
