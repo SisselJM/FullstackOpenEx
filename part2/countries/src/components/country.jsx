@@ -8,15 +8,14 @@ function Country(props) {
     const capital = country.capital[0]
     
     useEffect(() => {
-      const capital = 'London,uk'
-      //weatherService.getByCity(capital)
-      weatherService.getLondon()
+      weatherService.getByCity(capital)
       .then(result => {
         console.log(result)
         const icon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`
         const weather = {
           temperature: result.main.temp,
-          icon: icon 
+          icon: icon,
+          wind: result.wind.speed
         }
         setWeatherData(weather)
         console.log(weatherData)
