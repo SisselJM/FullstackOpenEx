@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import countriesService from './services/countries'
 import Country from './components/country'
 
-
-
 const CountriesList = (props) => {
   //console.log(props)
   //console.log(props.countries.length)

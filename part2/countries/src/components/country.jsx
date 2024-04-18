@@ -18,8 +18,7 @@ function Country(props) {
           wind: result.wind.speed
         }
         setWeatherData(weather)
-        console.log(weatherData)
-        //TODO refresh eller state
+        //console.log(weatherData)
       })
       .catch(err => {
         console.log(err)
