@@ -13,8 +13,10 @@ function Country(props) {
       weatherService.getLondon()
       .then(result => {
         console.log(result)
+        const icon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`
         const weather = {
-          temperature: result.main.temp
+          temperature: result.main.temp,
+          icon: icon 
         }
         setWeatherData(weather)
         console.log(weatherData)
@@ -42,7 +44,7 @@ function Country(props) {
       
       <h4>Weather in {capital}</h4>
       <p>Temperature {weatherData.temperature}</p>
-      <img src='https://openweathermap.org/img/wn/10d@2x.png' />
+      <img src={weatherData.icon} />
       <p>Wind TODO</p>
       </>
     )
