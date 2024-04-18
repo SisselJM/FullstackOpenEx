@@ -61,6 +61,8 @@ function App() {
         .then((updated) => {
           //console.log('updated: ', updated)
           setPersons(persons.map(p=> p.id !== newPerson.id ? p : updated))
+          setNewName('')
+          setNewNumber('')
         })
         .catch((error) => {
           console.log('Update failed!')
@@ -76,6 +78,8 @@ function App() {
       personService.create(person)
         .then((response) => {
           setPersons(persons.concat(response))
+          setNewName('')
+          setNewNumber('')
         })
         .catch((error) => {
           console.log('Create failed!')
@@ -85,8 +89,6 @@ function App() {
     }
     var msg = existing.length > 0 ? 'Updated' : 'Created'
     displayMessage5sec(`${msg} ${newName}`)
-    setNewName('')
-    setNewNumber('')
   }
 
   const displayMessage5sec = (msg) => {
