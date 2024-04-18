@@ -1,48 +1,8 @@
 import { useEffect, useState } from 'react'
 import countriesService from './services/countries'
-import weatherService from './services/weather'
+import Country from './components/country'
 
-const Country = (props) => {
-  //console.log(props)
-  const country = props.country
-  const capital = country.capital[0]
-  //let weather = { }
-  
-  useEffect(() => {
-    const capital = 'London,uk'
-    //weatherService.getByCity(capital)
-    weatherService.getLondon()
-    .then(result => {
-      console.log(result)
-      //weather.temperature = result
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }, [])
 
-  return (
-    <>
-    <h3>{country.name.common}</h3>
-    <p>Capital {capital}</p>
-    <p>Area {country.area}</p>
-    <h4>Languages:</h4>
-    <ul>
-      {
-        Object.values(country.languages).map(c => 
-          <li key={c}>{c}</li>
-        )
-      }
-    </ul>
-    <img src={country.flags.png} />
-    
-    <h4>Weather in {capital}</h4>
-    <p>Temperature TODO</p>
-    <p>Image TODO</p>
-    <p>Wind TODO</p>
-    </>
-  )
-}
 
 const CountriesList = (props) => {
   //console.log(props)
