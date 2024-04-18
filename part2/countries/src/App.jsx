@@ -1,26 +1,6 @@
 import { useEffect, useState } from 'react'
 import countriesService from './services/countries'
-
-const Country = (props) => {
-  console.log(props)
-  const country = props.country
-  return (
-    <>
-    <h3>{country.name.common}</h3>
-    <p>Capital {country.capital[0]}</p>
-    <p>Area {country.area}</p>
-    <h4>Languages:</h4>
-    <ul>
-      {
-        Object.values(country.languages).map(c => 
-          <li key={c}>{c}</li>
-        )
-      }
-    </ul>
-    <img src={country.flags.png} />
-    </>
-  )
-}
+import Country from './components/country'
 
 const CountriesList = (props) => {
   //console.log(props)
@@ -71,7 +51,6 @@ function App() {
     setCountries(filteredCountries)
   }
 
-  
   return (
     <>
       <p>
