@@ -1,10 +1,26 @@
 import { useEffect, useState } from 'react'
 import countriesService from './services/countries'
+import weatherService from './services/weather'
 
 const Country = (props) => {
-  console.log(props)
+  //console.log(props)
   const country = props.country
   const capital = country.capital[0]
+  //let weather = { }
+  
+  useEffect(() => {
+    const capital = 'London,uk'
+    //weatherService.getByCity(capital)
+    weatherService.getLondon()
+    .then(result => {
+      console.log(result)
+      //weather.temperature = result
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }, [])
+
   return (
     <>
     <h3>{country.name.common}</h3>
@@ -77,7 +93,6 @@ function App() {
     setCountries(filteredCountries)
   }
 
-  
   return (
     <>
       <p>
