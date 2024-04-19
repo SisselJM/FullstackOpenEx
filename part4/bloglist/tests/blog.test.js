@@ -74,13 +74,12 @@ test('dummy returns one', () => {
 describe('total likes', () => {
   test('when list has only one blog, equals the likes of that', () => {
     const result = listHelper.totalLikes(listWithOneBlog)
-    console.log(result)
+    //console.log(result)
     assert.strictEqual(result, 5)
   })
 
   test('when list has multiple blogs, equals the sum of likes of all', () => {
     const result = listHelper.totalLikes(blogs)
-    console.log(result)
     assert.strictEqual(result, 7+5+12+10+2)
   })
   test('when list has no blogs, return 0', () => {
@@ -97,17 +96,54 @@ describe('total likes', () => {
 describe('favorite blog', () => {
   test('when list has only one blog, equals that', () => {
     const result = listHelper.favoriteBlog(listWithOneBlog)
-    console.log(result)
     assert.deepStrictEqual(result, listWithOneBlog[0])
   })
 
   test('when list has multiple blogs, equals the one with highest likes', () => {
     const result = listHelper.favoriteBlog(blogs)
-    console.log(result)
     assert.deepStrictEqual(result, blogs[2])
   })
 
   test('when list is null, runs ok', () => {
     assert.doesNotThrow(() => listHelper.favoriteBlog(null))
+  })
+})
+
+describe('most blogs', () => {
+  test('when list has only one blog, equals that', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    //console.log(result)
+    assert.strictEqual(result.author, listWithOneBlog[0].author)
+    assert.strictEqual(result.blogs, 1)
+  })
+
+  test('when list has multiple blogs, equals the one with most blogs', () => {
+    const result = listHelper.mostBlogs(blogs)
+    //console.log(result)
+    assert.strictEqual(result.author, 'Robert C. Martin')
+    assert.strictEqual(result.blogs, 3)
+  })
+
+  test('when list is null, runs ok', () => {
+    assert.doesNotThrow(() => listHelper.mostBlogs(null))
+  })
+})
+
+describe('most likes', () => {
+  test('when list has only one blog, equals that', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    assert.strictEqual(result.author, listWithOneBlog[0].author)
+    assert.strictEqual(result.likes, listWithOneBlog[0].likes)
+  })
+/*TODO
+  test('when list has multiple blogs, equals the one with highest likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    console.log(result)
+    assert.strictEqual(result.author, 'Edsger W. Dijkstra')
+    assert.strictEqual(result.likes, 5+12)
+  })
+*/
+  test('when list is null, runs ok', () => {
+    assert.doesNotThrow(() => listHelper.mostLikes(null))
   })
 })
