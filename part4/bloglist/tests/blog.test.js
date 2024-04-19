@@ -83,6 +83,15 @@ describe('total likes', () => {
     console.log(result)
     assert.strictEqual(result, 7+5+12+10+2)
   })
+  test('when list has no blogs, return 0', () => {
+    const result = listHelper.totalLikes([])
+    assert.strictEqual(result, 0)
+  })
+
+  test('when list is null, runs ok', () => {
+    const result = listHelper.totalLikes(null)
+    assert.strictEqual(result, 0)
+  })
 })
 
 describe('favorite blog', () => {
@@ -96,5 +105,9 @@ describe('favorite blog', () => {
     const result = listHelper.favoriteBlog(blogs)
     console.log(result)
     assert.deepStrictEqual(result, blogs[2])
+  })
+
+  test('when list is null, runs ok', () => {
+    assert.doesNotThrow(() => listHelper.favoriteBlog(null))
   })
 })

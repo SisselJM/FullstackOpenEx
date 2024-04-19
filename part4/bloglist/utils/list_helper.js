@@ -3,6 +3,9 @@ const dummy = (blogs) => {
 }
 
 const totalLikes = (blogs) => {
+    if (!blogs) {
+        return 0
+    }
     let sum = 0
     blogs.map((b) => {
         sum += b.likes
@@ -11,6 +14,9 @@ const totalLikes = (blogs) => {
 }
 
 const favoriteBlog = (blogs) => {
+    if (!blogs) {
+        return null
+    }
     let result = { likes: 0 }
     blogs.map((b) => {
         if (b.likes > result.likes) {
