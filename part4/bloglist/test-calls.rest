@@ -6,8 +6,8 @@ POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
 
 {
-  "title": "The Agrivana Blog",
-  "author": "Joe Gardener",
-  "url": "https://joegardener.com/blog/",
-  "likes": 12
+  "title": "The Best Blog",
+  "author": "Number 1",
+  "url": "https://one.com/blog/",
+  "likes": 123
 }
