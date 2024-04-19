@@ -10,6 +10,16 @@ const totalLikes = (blogs) => {
     return sum 
 }
 
+const favoriteBlog = (blogs) => {
+    let result = { likes: 0 }
+    blogs.map((b) => {
+        if (b.likes > result.likes) {
+            result = b
+        }
+    })
+    return result 
+}
+
 module.exports = {
-  dummy, totalLikes
+  dummy, totalLikes, favoriteBlog
 }
