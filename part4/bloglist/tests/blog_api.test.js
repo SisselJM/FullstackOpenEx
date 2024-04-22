@@ -141,7 +141,23 @@ describe('when there is initially some items saved', () => {
         .send(item)
         .expect(200)
 
-      console.log('resultItem: ', resultItem)
+      //console.log('resultItem: ', resultItem)
+      assert.deepStrictEqual(resultItem.body, item)
+    })
+
+    test('Change properties', async () => {
+      const itemsAtStart = await helper.blogsInDb()
+
+      const item = itemsAtStart[1]
+      item.title = 'Changed title'
+      item.author = 'Changed author'
+      item.url = 'Changed url'
+
+      const resultItem = await api
+        .put(`/api/blogs/${item.id}`)
+        .send(item)
+        .expect(200)
+
       assert.deepStrictEqual(resultItem.body, item)
     })
   })
