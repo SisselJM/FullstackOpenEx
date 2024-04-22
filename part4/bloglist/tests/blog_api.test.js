@@ -1,4 +1,4 @@
-const { test, after, beforeEach } = require('node:test')
+const { test, describe, after, beforeEach } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
@@ -86,6 +86,30 @@ test('likes default to 0', async () => {
   
     const likes = response.body.likes
     assert.strictEqual(likes, 0)
+})
+
+//4.12
+describe('missing request data, returns 400 Bad request', () => {
+  test('Title is missing', async () => {
+
+    await api
+      .post('/api/blogs')
+      .send({
+        author: "Newbie Blogger",
+        url: "http://my.blog.no/2"
+      })
+      .expect(400)
+  }),
+  test('Url is missing', async () => {
+
+    await api
+      .post('/api/blogs')
+      .send({
+        title: "The blog",
+        author: "Newbie Blogger"
+      })
+      .expect(400)
+  })
 })
 
 beforeEach(async () => {
