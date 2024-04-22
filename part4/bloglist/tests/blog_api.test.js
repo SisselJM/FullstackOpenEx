@@ -117,16 +117,32 @@ describe('when there is initially some items saved', () => {
 
   //4.9
   test('the unique identifier property of the blog posts is named id', async () => {
-      const response = await api.get('/api/blogs')
-      //console.log(response.body[0]) //
-      const id = response.body.map(r => r.id)[0]
-      assert.notStrictEqual(id, undefined)
+    const response = await api.get('/api/blogs')
+    //console.log(response.body[0]) //
+    const id = response.body.map(r => r.id)[0]
+    assert.notStrictEqual(id, undefined)
 
-      await api
-        .get(`/api/blogs/${id}`)
-        .expect(200)
-        
-    })
+    await api
+      .get(`/api/blogs/${id}`)
+      .expect(200)
+      
+  })
+
+  //4.14
+  test('Update', async () => {
+    const itemsAtStart = await helper.blogsInDb()
+
+    const item = itemsAtStart[0]
+    item.likes += 1
+
+    const resultItem = await api
+      .put(`/api/blogs/${item.id}`)
+      .send(item)
+      .expect(200)
+
+      console.log('resultItem: ', resultItem)
+    //assert.deepStrictEqual(resultItem.body, item)
+  })
 
   describe('deletion of a blog', () => {
     test('succeeds with status code 204 if id is valid', async () => {
