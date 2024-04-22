@@ -50,13 +50,19 @@ test('a valid blog can be added ', async () => {
   
     const response = await api.get('/api/blogs')
   
-    const contents = response.body.map(r => r.title)
-    console.log('contents: ', contents)
+    const title = response.body.map(r => r.title)
   
     assert.strictEqual(response.body.length, initialBlogs.length + 1)
   
-    assert(contents.includes('My second blog'))
+    assert(title.includes('My second blog'))
 })
+
+test('the unique identifier property of the blog posts is named id', async () => {
+    const response = await api.get('/api/blogs')
+    console.log(response.body[0]) //
+    const id = response.body.map(r => r.id)[0]
+    assert.notStrictEqual(id, undefined)
+  })
 
 beforeEach(async () => {
     await Blog.deleteMany({})
