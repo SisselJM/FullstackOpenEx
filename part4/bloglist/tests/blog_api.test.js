@@ -129,19 +129,21 @@ describe('when there is initially some items saved', () => {
   })
 
   //4.14
-  test('Update', async () => {
-    const itemsAtStart = await helper.blogsInDb()
+  describe('Update a blog', () => {
+    test('Add 1 like', async () => {
+      const itemsAtStart = await helper.blogsInDb()
 
-    const item = itemsAtStart[0]
-    item.likes += 1
+      const item = itemsAtStart[0]
+      item.likes += 1
 
-    const resultItem = await api
-      .put(`/api/blogs/${item.id}`)
-      .send(item)
-      .expect(200)
+      const resultItem = await api
+        .put(`/api/blogs/${item.id}`)
+        .send(item)
+        .expect(200)
 
       console.log('resultItem: ', resultItem)
-    //assert.deepStrictEqual(resultItem.body, item)
+      assert.deepStrictEqual(resultItem.body, item)
+    })
   })
 
   describe('deletion of a blog', () => {
