@@ -22,6 +22,7 @@ const initialBlogs = [
     }
   ]
 
+//4.8
 test('blogs are returned as json', async () => {
   await api
     .get('/api/blogs')
@@ -34,6 +35,15 @@ test('there are 2 blogs', async () => {
   assert.strictEqual(response.body.length, 2)
 })
 
+//4.9
+test('the unique identifier property of the blog posts is named id', async () => {
+    const response = await api.get('/api/blogs')
+    //console.log(response.body[0]) //
+    const id = response.body.map(r => r.id)[0]
+    assert.notStrictEqual(id, undefined)
+  })
+
+//4.10
 test('a valid blog can be added ', async () => {
     const newBlog = {
         title: "My second blog",
@@ -57,12 +67,26 @@ test('a valid blog can be added ', async () => {
     assert(title.includes('My second blog'))
 })
 
-test('the unique identifier property of the blog posts is named id', async () => {
-    const response = await api.get('/api/blogs')
-    console.log(response.body[0]) //
-    const id = response.body.map(r => r.id)[0]
-    assert.notStrictEqual(id, undefined)
-  })
+//4.11
+test('likes default to 0', async () => {
+    const newBlog = {
+        title: "My second blog",
+        author: "Newbie Blogger",
+        url: "http://my.blog.no/2"
+    }
+  
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    console.log('body: ', response.body)
+    console.log('likes: ', response.body.likes)
+  
+    const likes = response.body.likes
+    assert.strictEqual(likes, 0)
+})
 
 beforeEach(async () => {
     await Blog.deleteMany({})
