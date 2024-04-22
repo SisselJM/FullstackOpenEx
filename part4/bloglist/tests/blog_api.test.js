@@ -4,23 +4,9 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const helper = require('./test_helper')
 
 const api = supertest(app)
-
-const initialBlogs = [
-    {
-        title: "My first blog",
-        author: "Newbie Blogger",
-        url: "http://my.blog.no/1",
-        likes: 1
-    },
-    {
-        title: "My 123rd blog",
-        author: "Pro Blogger",
-        url: "http://pro.blog.no/123",
-        likes: 556
-    }
-  ]
 
 //4.8
 test('blogs are returned as json', async () => {
@@ -62,7 +48,7 @@ test('a valid blog can be added ', async () => {
   
     const title = response.body.map(r => r.title)
   
-    assert.strictEqual(response.body.length, initialBlogs.length + 1)
+    assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
   
     assert(title.includes('My second blog'))
 })
@@ -81,8 +67,7 @@ test('likes default to 0', async () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
   
-    console.log('body: ', response.body)
-    console.log('likes: ', response.body.likes)
+    //console.log('body: ', response.body)
   
     const likes = response.body.likes
     assert.strictEqual(likes, 0)
@@ -114,9 +99,9 @@ describe('missing request data, returns 400 Bad request', () => {
 
 beforeEach(async () => {
     await Blog.deleteMany({})
-    let blog = new Blog(initialBlogs[0])
+    let blog = new Blog(helper.initialBlogs[0])
     await blog.save()
-    blog = new Blog(initialBlogs[1])
+    blog = new Blog(helper.initialBlogs[1])
     await blog.save()
 })
 
