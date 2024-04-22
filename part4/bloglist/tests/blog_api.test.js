@@ -7,19 +7,7 @@ const Blog = require('../models/blog')
 
 const api = supertest(app)
 
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
-
-test('there are 2 blogs', async () => {
-  const response = await api.get('/api/blogs')
-  assert.strictEqual(response.body.length, 2)
-})
-
-  const initalBlogs = [
+const initialBlogs = [
     {
         title: "My first blog",
         author: "Newbie Blogger",
@@ -34,11 +22,43 @@ test('there are 2 blogs', async () => {
     }
   ]
 
+test('blogs are returned as json', async () => {
+  await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+})
+
+test('there are 2 blogs', async () => {
+  const response = await api.get('/api/blogs')
+  assert.strictEqual(response.body.length, 2)
+})
+
+test('a valid blog can be added ', async () => {
+    const newBlog = {
+        title: "My second blog",
+        author: "Newbie Blogger",
+        url: "http://my.blog.no/2",
+        likes: 2
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api.get('/api/blogs')
+  
+    assert.strictEqual(response.body.length, initialBlogs.length + 1)
+  
+})
+
 beforeEach(async () => {
     await Blog.deleteMany({})
-    let blog = new Blog(initalBlogs[0])
+    let blog = new Blog(initialBlogs[0])
     await blog.save()
-    blog = new Blog(initalBlogs[1])
+    blog = new Blog(initialBlogs[1])
     await blog.save()
 })
 
