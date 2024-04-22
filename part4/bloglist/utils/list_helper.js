@@ -5,7 +5,7 @@ const dummy = (blogs) => {
 }
 
 const totalLikes = (blogs) => {
-    if (!blogs) {
+    if (!hasItems(blogs)) {
         return 0
     }
     let sum = 0
@@ -16,7 +16,7 @@ const totalLikes = (blogs) => {
 }
 
 const favoriteBlog = (blogs) => {
-    if (!blogs) {
+    if (!hasItems(blogs)) {
         return null
     }
     let result = { likes: 0 }
@@ -29,25 +29,26 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-    if (!blogs) {
+    if (!hasItems(blogs)) {
         return null
     }
     const authorCounts = _.countBy(blogs, 'author');
-    console.log(authorCounts)
+    //console.log(authorCounts)
     const mostOccurredAuthor = _.maxBy(Object.keys(authorCounts), (author) => authorCounts[author]);
-    console.log(mostOccurredAuthor)
+    //console.log(mostOccurredAuthor)
 
     // Find the item with the most occurrences of the same author
     const mostOccurringItems = _.find(blogs, { 'author': mostOccurredAuthor });
-    console.log(mostOccurringItems)
+    //console.log(mostOccurringItems)
     return { author: mostOccurringItems.author, blogs: authorCounts[mostOccurringItems.author] }
 }
 
 const mostLikes = (blogs) => {
-    if (!blogs) {
+    if (!hasItems(blogs)) {
         return null
     }
     const groupedByAuthor = _.groupBy(blogs, 'author');
+    console.log(groupedByAuthor) //ok
     const mostLikedItems = _.mapValues(groupedByAuthor, (items) => _.maxBy(items, 'likes'));
     //console.log(mostLikedItems)
     const keys = Object.keys(mostLikedItems)
@@ -57,6 +58,13 @@ const mostLikes = (blogs) => {
       author: key,
       likes: mostLikedItems[key].likes
     }
+}
+
+const hasItems = (blogs) => {
+    if (!blogs || blogs.length == 0) {
+        return false
+    }
+    return true
 }
 
 module.exports = {

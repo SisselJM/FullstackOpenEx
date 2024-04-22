@@ -104,6 +104,9 @@ describe('favorite blog', () => {
     assert.deepStrictEqual(result, blogs[2])
   })
 
+  test('when list has no blogs, runs ok', () => {
+    assert.doesNotThrow(() => listHelper.favoriteBlog([]))
+  })
   test('when list is null, runs ok', () => {
     assert.doesNotThrow(() => listHelper.favoriteBlog(null))
   })
@@ -124,6 +127,9 @@ describe('most blogs', () => {
     assert.strictEqual(result.blogs, 3)
   })
 
+  test('when list has no blogs, runs ok', () => {
+    assert.doesNotThrow(() => listHelper.mostBlogs([]))
+  })
   test('when list is null, runs ok', () => {
     assert.doesNotThrow(() => listHelper.mostBlogs(null))
   })
@@ -143,6 +149,10 @@ describe('most likes', () => {
     assert.strictEqual(result.likes, 5+12)
   })
 */
+  test('when list has no blogs, runs ok', () => {
+    assert.doesNotThrow(() => listHelper.mostLikes([]))
+  })
+
   test('when list is null, runs ok', () => {
     assert.doesNotThrow(() => listHelper.mostLikes(null))
   })
