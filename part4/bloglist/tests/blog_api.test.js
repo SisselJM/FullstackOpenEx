@@ -50,8 +50,12 @@ test('a valid blog can be added ', async () => {
   
     const response = await api.get('/api/blogs')
   
+    const contents = response.body.map(r => r.title)
+    console.log('contents: ', contents)
+  
     assert.strictEqual(response.body.length, initialBlogs.length + 1)
   
+    assert(contents.includes('My second blog'))
 })
 
 beforeEach(async () => {
