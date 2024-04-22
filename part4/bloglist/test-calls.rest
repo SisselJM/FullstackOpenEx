@@ -11,3 +11,6 @@ content-type: application/json
   "url": "https://one.com/blog/",
   "likes": 123
 }
+
+### Get 1
+GET http://localhost:3003/api/blogs/662231df88a9e42078803f02
