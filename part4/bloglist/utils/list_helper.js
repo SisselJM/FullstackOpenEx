@@ -47,17 +47,22 @@ const mostLikes = (blogs) => {
     if (!hasItems(blogs)) {
         return null
     }
+    //console.log('blogs: ', blogs)
+    //Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
     const groupedByAuthor = _.groupBy(blogs, 'author');
-    console.log(groupedByAuthor) //ok
-    const mostLikedItems = _.mapValues(groupedByAuthor, (items) => _.maxBy(items, 'likes'));
-    //console.log(mostLikedItems)
-    const keys = Object.keys(mostLikedItems)
-    //console.log(keys)
-    const key = keys[0]
-    return {
-      author: key,
-      likes: mostLikedItems[key].likes
-    }
+    //console.log('groupedByAuthor: ', groupedByAuthor) 
+
+    const authors = _.map(groupedByAuthor, (posts, author) => {
+        return {
+          author: author,
+          likes: _.sumBy(posts, 'likes')
+        };
+      });
+    //console.log('authors: ', authors)
+    
+    const mostLikedAuthor = _.maxBy(authors, 'likes');
+    //console.log('mostLikedAuthor: ', mostLikedAuthor)
+    return mostLikedAuthor;
 }
 
 const hasItems = (blogs) => {
