@@ -19,44 +19,70 @@ describe('when there is initially one user in db', () => {
     await user.save()
   })
 
-  test('creation succeeds with a fresh username', async () => {
-    const usersAtStart = await helper.usersInDb()
+  describe('create users', () => {
+    test('creation succeeds with a fresh username', async () => {
+      const usersAtStart = await helper.usersInDb()
 
-    const newUser = {
-      username: 'mluukkai',
-      name: 'Matti Luukkainen',
-      password: 'salainen',
-    }
+      const newUser = {
+        username: 'mluukkai',
+        name: 'Matti Luukkainen',
+        password: 'salainen',
+      }
 
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
+      await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
 
-    const usersAtEnd = await helper.usersInDb()
-    assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
+      const usersAtEnd = await helper.usersInDb()
+      assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
 
-    const usernames = usersAtEnd.map(u => u.username)
-    assert(usernames.includes(newUser.username))
-    console.log('Done')
+      const usernames = usersAtEnd.map(u => u.username)
+      assert(usernames.includes(newUser.username))
+      console.log('Done')
+    })
+
+    test('create with too short password fails', async () => {
+      await api
+        .post('/api/users')
+        .send({
+          username: 'mikajo',
+          name: 'Mika Johnsen',
+          password: 'sa',
+        })
+        .expect(400)
+    })
+
+    test('create without username fails', async () => {
+        await api
+        .post('/api/users')
+        .send({
+          name: 'Mika Johnsen',
+          password: 'salainen',
+        })
+        .expect(400)
+    })
+    
   })
-  test('users are returned as json', async () => {
-    await api
-      .get('/api/users')
-      .expect(200)
-      .expect('Content-Type', /application\/json/)
-  })
 
-  test('get users', async () => {
-    const response = await api
-      .get('/api/users')
-      .expect(200)
-      
-    //console.log('users: ', response.body.length)
-    assert.strictEqual(response.body.length, 1)
-  })
+  describe('retrieve users', () => {
+    test('users are returned as json', async () => {
+      await api
+        .get('/api/users')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+    })
 
+    test('get users', async () => {
+      const response = await api
+        .get('/api/users')
+        .expect(200)
+        
+      //console.log('users: ', response.body.length)
+      assert.strictEqual(response.body.length, 1)
+    })
+  })
 })
 
 after(async () => {
