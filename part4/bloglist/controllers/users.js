@@ -5,8 +5,8 @@ const User = require('../models/user')
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body
 
-  if (!username || username.length < 3 || !password || password.length < 3) {
-    response.status(400).json({ error: 'username and password should be at least 3 characters long!'})
+  if (!password || password.length < 3) {
+    response.status(400).json({ error: 'password should be at least 3 characters long!'})
     return
   }
 
@@ -18,7 +18,11 @@ usersRouter.post('/', async (request, response) => {
     name,
     passwordHash,
   })
-//feiler her ved invalid username - men skulle den kommet til endpoint i det hele tatt?
+  const validation = user.validateSync();
+  if (validation && validation.errors) {
+    response.status(400).json({ error: validation.errors })
+  }
+
   const savedUser = await user.save()
 
   response.status(201).json(savedUser)
