@@ -18,7 +18,7 @@ usersRouter.post('/', async (request, response) => {
     name,
     passwordHash,
   })
-
+//feiler her ved invalid username - men skulle den kommet til endpoint i det hele tatt?
   const savedUser = await user.save()
 
   response.status(201).json(savedUser)
