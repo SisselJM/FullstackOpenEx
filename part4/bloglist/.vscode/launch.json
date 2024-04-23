@@ -12,6 +12,26 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}\\index.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug tests",
+      "runtimeExecutable": "node",
+      "args": [
+        "--require",
+        "cross-env",
+        "--test",
+        "${workspaceFolder}/tests"
+      ],
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal"
     }
+
   ]
 }
