@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 const notesRouter = require('./controllers/notes')
+const usersRouter = require('./controllers/users')
+const middleware = require('./utils/middleware')
 
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl)
@@ -14,5 +16,8 @@ app.use(express.json())
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/notes', notesRouter)
+app.use('/api/users', usersRouter)
+
+app.use(middleware.errorHandler)
 
 module.exports = app

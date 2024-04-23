@@ -136,19 +136,40 @@ describe('most blogs', () => {
 })
 
 describe('most likes', () => {
+  
   test('when list has only one blog, equals that', () => {
     const result = listHelper.mostLikes(listWithOneBlog)
     assert.strictEqual(result.author, listWithOneBlog[0].author)
     assert.strictEqual(result.likes, listWithOneBlog[0].likes)
   })
-/*TODO
+  
+  test('when list has two blogs, equals the one with most likes', () => {
+    const listWith2Blogs = [
+      {
+        author: "Edsger W. Dijkstra",
+        likes: 5
+      },
+      {
+        author: "Michael Chan",
+        likes: 7
+      },
+      {
+        author: "Michael Chan",
+        likes: 6
+      }
+    ]
+    const result = listHelper.mostLikes(listWith2Blogs)
+    assert.strictEqual(result.author, listWith2Blogs[1].author)
+    assert.strictEqual(result.likes, listWith2Blogs[1].likes + 6)
+  })
+
   test('when list has multiple blogs, equals the one with highest likes', () => {
     const result = listHelper.mostLikes(blogs)
-    console.log(result)
+    //console.log(result)
     assert.strictEqual(result.author, 'Edsger W. Dijkstra')
     assert.strictEqual(result.likes, 5+12)
   })
-*/
+
   test('when list has no blogs, runs ok', () => {
     assert.doesNotThrow(() => listHelper.mostLikes([]))
   })
