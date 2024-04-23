@@ -1,5 +1,6 @@
 const { test, describe, after, beforeEach } = require('node:test')
 const assert = require('node:assert')
+const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const User = require('../models/user')
@@ -56,4 +57,8 @@ describe('when there is initially one user in db', () => {
     assert.strictEqual(response.body.length, 1)
   })
 
+})
+
+after(async () => {
+  await mongoose.connection.close()
 })
