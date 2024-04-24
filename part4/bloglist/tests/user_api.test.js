@@ -54,7 +54,6 @@ describe('when there is initially one user in db', () => {
         .expect(400)
     })
     
-/* [ValidationError]: User validation failed: username: Path `username` (`Mi`) is shorter than the minimum allowed length (3)
     test('create with too short username fails', async () => {
       await api
       .post('/api/users')
@@ -75,7 +74,7 @@ describe('when there is initially one user in db', () => {
         })
         .expect(400)
     })
-*/    
+//    
   })
 
   describe('retrieve users', () => {
