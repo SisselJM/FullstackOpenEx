@@ -18,10 +18,6 @@ usersRouter.post('/', async (request, response) => {
     name,
     passwordHash,
   })
-  const validation = user.validateSync();
-  if (validation && validation.errors) {
-    response.status(400).json({ error: validation.errors })
-  }
 
   const savedUser = await user.save()
 
