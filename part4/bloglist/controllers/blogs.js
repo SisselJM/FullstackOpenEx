@@ -1,6 +1,5 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response) => {
@@ -24,7 +23,7 @@ blogsRouter.post('/', async (request, response) => {
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
-  const user = await User.findById(decodedToken.id)
+  const user = request.user
 
   const blog = new Blog(request.body)
   if (!blog.title || !blog.url) {
@@ -63,13 +62,15 @@ blogsRouter.delete('/:id', async (request, response) => {
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
-  const userId = decodedToken.id
+  const userId = request.user._id
   const blogId = request.params.id
   const blog = await Blog.findById(blogId)
   if (!blog) {
     return response.status(400).json({ error: 'invalid blog' })
   }
   if (blog.creator && blog.creator.toString() !== userId.toString()) {
+    //console.log('creator', blog.creator.toString())
+    //console.log('user: ', userId.toString())
     return response.status(400).json({ error: 'only its creator can delete a blog' })
   }
   await Blog.findByIdAndDelete(blogId)
