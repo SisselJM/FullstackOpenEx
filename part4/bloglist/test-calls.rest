@@ -39,3 +39,12 @@ content-type: application/json
   "name": "The Invalid Blogger",
   "password": "12345678"
 }
+
+### login
+POST http://localhost:3003/api/login
+content-type: application/json
+
+{
+  "username": "blogger1",
+  "password": "12345678"
+}
