@@ -9,9 +9,9 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.get('/:id', async (request, response) => {
-  const note = await Blog.findById(request.params.id)
-  if (note) {
-    response.json(note)
+  const item = await Blog.findById(request.params.id)
+  if (item) {
+    response.json(item)
   } else {
     response.status(404).end()
   }
@@ -23,16 +23,23 @@ blogsRouter.post('/', async (request, response) => {
     response.status(400).end()
     return
   }
-  //4.17 any user from the database is designated as its creator 
-  const users = await User.find({})
-  if (users && users.length > 0) {
-    blog.creator = users[0].id
-  }
   if (!blog.likes) {
     blog.likes = 0
   }
 
+  //4.17 any user from the database is designated as its creator 
+  let user = {}
+  const users = await User.find({})
+  if (users && users.length > 0) {
+    user = users[0]
+    blog.creator = users[0]._id
+  }
+
   const savedBlog = await blog.save()
+  
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
+  
   response.status(201).json(savedBlog)
 })
 

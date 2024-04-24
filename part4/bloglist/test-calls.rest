@@ -6,9 +6,9 @@ POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
 
 {
-  "title": "The Best Blog",
+  "title": "The Best Blogs",
   "author": "Number 1",
-  "url": "https://one.com/blog/",
+  "url": "https://one.com/blogs/",
   "likes": 123
 }
 
@@ -21,12 +21,21 @@ GET http://localhost:3003/api/blogs/662231df88a9e42078803f02
 ### Get all users
 GET http://localhost:3003/api/users
 
-### create without username - returns 400
+### create ok
 POST http://localhost:3003/api/users HTTP/1.1 
 content-type: application/json
 
 {
   "username": "blogger1",
   "name": "The Best Blogger",
+  "password": "12345678"
+}
+
+### create without username - returns 400
+POST http://localhost:3003/api/users HTTP/1.1 
+content-type: application/json
+
+{
+  "name": "The Invalid Blogger",
   "password": "12345678"
 }

@@ -51,7 +51,7 @@ describe('when there is initially some items and one user saved', () => {
     assert.deepStrictEqual(resultItem.body, item)
   })
 
-  describe('addition of a new note', () => {
+  describe('addition of a new blog', () => {
     //4.10
     test('a valid blog can be added ', async () => {
       const newBlog = {
@@ -68,6 +68,7 @@ describe('when there is initially some items and one user saved', () => {
         .expect('Content-Type', /application\/json/)
 
       const response = await api.get('/api/blogs')
+      //console.log('Body all blogs: ', response.body)
 
       const title = response.body.map(r => r.title)
 
@@ -97,6 +98,9 @@ describe('when there is initially some items and one user saved', () => {
       const creator = response.body.creator
       //console.log('creator: ', creator)
       assert(creator !== undefined && creator !== '')
+
+      const users = await api.get('/api/users')
+      //console.log('users: ', users.body) 
     })
   })
 
@@ -211,7 +215,6 @@ describe('when there is initially some items and one user saved', () => {
 
       const usernames = usersAtEnd.map(u => u.username)
       assert(usernames.includes(newUser.username))
-      console.log('Done')
     })
 
     test('create with too short password fails', async () => {
