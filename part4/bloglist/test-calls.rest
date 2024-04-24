@@ -4,10 +4,11 @@ GET http://localhost:3003/api/blogs
 ### create. 201 Created
 POST http://localhost:3003/api/blogs HTTP/1.1 
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJsb2dnZXIxIiwiaWQiOiI2NjI4YmVlNmRjZmJjMTQwMWQ4N2Y5NTYiLCJpYXQiOjE3MTM5NjQyNjN9.m2xavYJhcptx8kOMoqcrq_d37mMixhi9cDBHhdCnnsg
 
 {
-  "title": "The Best Blogs",
-  "author": "Number 1",
+  "title": "The 2nd Best Blogs",
+  "author": "Number 2",
   "url": "https://one.com/blogs/",
   "likes": 123
 }

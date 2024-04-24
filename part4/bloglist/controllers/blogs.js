@@ -1,6 +1,15 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
@@ -18,21 +27,21 @@ blogsRouter.get('/:id', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
+  //4.19 The user identified by the token is designated as the creator of the blog.
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+
   const blog = new Blog(request.body)
   if (!blog.title || !blog.url) {
     response.status(400).end()
     return
   }
+  blog.creator = user._id
   if (!blog.likes) {
     blog.likes = 0
-  }
-
-  //4.17 any user from the database is designated as its creator 
-  let user = {}
-  const users = await User.find({})
-  if (users && users.length > 0) {
-    user = users[0]
-    blog.creator = users[0]._id
   }
 
   const savedBlog = await blog.save()
