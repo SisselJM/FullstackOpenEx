@@ -4,7 +4,7 @@ GET http://localhost:3003/api/blogs
 ### create. 201 Created
 POST http://localhost:3003/api/blogs HTTP/1.1 
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJsb2dnZXIxIiwiaWQiOiI2NjI4YmVlNmRjZmJjMTQwMWQ4N2Y5NTYiLCJpYXQiOjE3MTM5NjQyNjN9.m2xavYJhcptx8kOMoqcrq_d37mMixhi9cDBHhdCnnsg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJsb2dnZXIyNCIsImlkIjoiNjYyOTQ3ZjQ0YTVjYTIxYTZhMTVmY2IwIiwiaWF0IjoxNzEzOTgxNDQ5fQ.0oPHglCjByN07e-R-wWEBTcJnGciMZ6Skglmxg7Q9i4
 
 {
   "title": "The 3nd Best Blogs",
@@ -19,6 +19,10 @@ GET http://localhost:3003/api/blogs/
 ### Get 1
 GET http://localhost:3003/api/blogs/662231df88a9e42078803f02
 
+### Delete blog - 400 only its creator can delete a blog
+DELETE http://localhost:3003/api/blogs/662948624a5ca21a6a15fcb4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJsb2dnZXIxIiwiaWQiOiI2NjI4YmVlNmRjZmJjMTQwMWQ4N2Y5NTYiLCJpYXQiOjE3MTM5NjQyNjN9.m2xavYJhcptx8kOMoqcrq_d37mMixhi9cDBHhdCnnsg
+
 ### Get all users
 GET http://localhost:3003/api/users
 
@@ -27,8 +31,8 @@ POST http://localhost:3003/api/users HTTP/1.1
 content-type: application/json
 
 {
-  "username": "blogger1",
-  "name": "The Best Blogger",
+  "username": "blogger24",
+  "name": "Blogger 24",
   "password": "12345678"
 }
 
@@ -49,3 +53,14 @@ content-type: application/json
   "username": "blogger1",
   "password": "12345678"
 }
+### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJsb2dnZXIxIiwiaWQiOiI2NjI4YmVlNmRjZmJjMTQwMWQ4N2Y5NTYiLCJpYXQiOjE3MTM5NjQyNjN9.m2xavYJhcptx8kOMoqcrq_d37mMixhi9cDBHhdCnnsg
+
+### login
+POST http://localhost:3003/api/login
+content-type: application/json
+
+{
+  "username": "blogger24",
+  "password": "12345678"
+}
+### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJsb2dnZXIyNCIsImlkIjoiNjYyOTQ3ZjQ0YTVjYTIxYTZhMTVmY2IwIiwiaWF0IjoxNzEzOTgxNDQ5fQ.0oPHglCjByN07e-R-wWEBTcJnGciMZ6Skglmxg7Q9i4
