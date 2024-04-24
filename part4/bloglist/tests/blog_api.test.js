@@ -70,7 +70,7 @@ describe('when there is initially some items saved', () => {
     })
 
     //4.11
-    test('likes default to 0', async () => {
+    test('likes default to 0, creator is set', async () => {
       const newBlog = {
           title: "My second blog",
           author: "Newbie Blogger",
@@ -87,6 +87,9 @@ describe('when there is initially some items saved', () => {
 
       const likes = response.body.likes
       assert.strictEqual(likes, 0)
+      const creator = response.body.creator
+      //console.log('creator: ', creator)
+      assert(creator !== undefined && creator !== '')
     })
   })
 

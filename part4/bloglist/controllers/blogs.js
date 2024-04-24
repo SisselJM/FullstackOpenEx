@@ -1,8 +1,10 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
+    .populate('creator', { username: 1, name: 1 })
   response.json(blogs)
 })
 
@@ -20,6 +22,11 @@ blogsRouter.post('/', async (request, response) => {
   if (!blog.title || !blog.url) {
     response.status(400).end()
     return
+  }
+  //4.17 any user from the database is designated as its creator 
+  const users = await User.find({})
+  if (users && users.length > 0) {
+    blog.creator = users[0].id
   }
   if (!blog.likes) {
     blog.likes = 0

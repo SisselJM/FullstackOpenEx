@@ -4,7 +4,11 @@ const blogSchema = new mongoose.Schema({
     title: String,
     author: String,
     url: String,
-    likes: Number
+    likes: Number,
+    creator: {    //4.17 Expand blogs so that each blog contains information on the creator of the blog
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
   })
 
   blogSchema.set('toJSON', {

@@ -12,6 +12,9 @@ content-type: application/json
   "likes": 123
 }
 
+### Get all blogs
+GET http://localhost:3003/api/blogs/
+
 ### Get 1
 GET http://localhost:3003/api/blogs/662231df88a9e42078803f02
 
@@ -23,6 +26,7 @@ POST http://localhost:3003/api/users HTTP/1.1
 content-type: application/json
 
 {
-  "name": "The Best Blog",
+  "username": "blogger1",
+  "name": "The Best Blogger",
   "password": "12345678"
 }
