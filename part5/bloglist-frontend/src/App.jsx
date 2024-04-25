@@ -8,6 +8,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [newBlog, setNewBlog] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -74,6 +75,39 @@ const App = () => {
     </form>      
   )
 
+  const addBlog = (event) => {
+    event.preventDefault()
+    console.log('Add')
+    const blogObject = {
+      title: newBlog,
+      url: 'someurl'
+    }
+    blogService
+      .create(blogObject)
+      .then(blog => {
+        console.log('blog created. ', blog)
+        setBlogs(blogs.concat(blog))
+        setNewBlog('')
+      })
+      .catch(error => {
+        console.log('Something went wrong: ', error)
+      })
+  }
+
+  const handleBlogChange = async (event) => {
+    //console.log('Change...', event.target.value)
+    setNewBlog(event.target.value)
+  }
+
+  const blogForm = () => (
+    <form onSubmit={addBlog}>
+      <input
+        value={newBlog}
+        onChange={handleBlogChange}
+      />
+      <button type="submit">save</button>
+    </form>  
+  )
 
   if (user === null) {
     return (
@@ -87,6 +121,9 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
+
+      {blogForm()}
+
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
