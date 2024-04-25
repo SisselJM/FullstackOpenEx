@@ -79,8 +79,9 @@ const App = () => {
     event.preventDefault()
     console.log('Add')
     const blogObject = {
-      title: newBlog,
-      url: 'someurl'
+      title: newBlog.title,
+      author: newBlog.author,
+      url: newBlog.url
     }
     blogService
       .create(blogObject)
@@ -96,15 +97,22 @@ const App = () => {
 
   const handleBlogChange = async (event) => {
     //console.log('Change...', event.target.value)
-    setNewBlog(event.target.value)
+    setNewBlog({ title: event.target.value, author: newBlog.author, url: newBlog.url })
+  }
+
+  const handleAuthorChange = async (event) => {
+    setNewBlog({ author: event.target.value, title: newBlog.title, url: newBlog.url })
+  }
+
+  const handleUrlChange = async (event) => {
+    setNewBlog({ url: event.target.value, title: newBlog.title, author: newBlog.author })
   }
 
   const blogForm = () => (
     <form onSubmit={addBlog}>
-      <input
-        value={newBlog}
-        onChange={handleBlogChange}
-      />
+      Title: <input value={newBlog.title} onChange={handleBlogChange} /><br />
+      Author: <input value={newBlog.author} onChange={handleAuthorChange} /><br />
+      Url: <input value={newBlog.url} onChange={handleUrlChange} /><br />
       <button type="submit">save</button>
     </form>  
   )
@@ -122,11 +130,16 @@ const App = () => {
       <h2>Blogs</h2>
       <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
+      <p>
+      <h2>Create new</h2>
       {blogForm()}
+      </p>
 
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      <p>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
+      </p>
     </div>
   )
 }
