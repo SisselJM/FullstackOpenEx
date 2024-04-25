@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import NewBlogForm from './components/NewBlogForm'
+import Togglable from './components/Togglable'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -120,15 +122,6 @@ const App = () => {
     setNewBlog({ url: event.target.value, title: newBlog.title, author: newBlog.author })
   }
 
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      Title: <input value={newBlog.title} onChange={handleBlogChange} /><br />
-      Author: <input value={newBlog.author} onChange={handleAuthorChange} /><br />
-      Url: <input value={newBlog.url} onChange={handleUrlChange} /><br />
-      <button type="submit">save</button>
-    </form>  
-  )
-
   if (user === null) {
     return (
       <div>
@@ -145,10 +138,17 @@ const App = () => {
 
       <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
-      <p>
-      <h2>Create new</h2>
-      {blogForm()}
-      </p>
+      <Togglable buttonLabel="New blog">
+        <NewBlogForm
+            handleSubmit={addBlog}
+            title={newBlog.title}
+            author={newBlog.author}
+            url={newBlog.url}
+            handleBlogChange={handleBlogChange}
+            handleAuthorChange={handleAuthorChange}
+            handleUrlChange={handleUrlChange}
+            />
+      </Togglable>
 
       <p>
         {blogs.map(blog =>
