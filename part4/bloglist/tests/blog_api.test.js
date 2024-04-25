@@ -76,9 +76,23 @@ describe('when there is initially some items and one user saved', () => {
           likes: 2
       }
 
+      const user = 
+      {
+        "username": "root",
+        "password": "sekret"
+      }
+      const login = await api
+        .post('/api/login')
+        .send(user)
+        .expect(200)
+        
+      //console.log('login: ', login.body)
+      const token = `Bearer ${login.body.token}`
+      //console.log('token: ', token)
       await api
         .post('/api/blogs')
         .send(newBlog)
+        .set({ Authorization: token })
         .expect(201)
         .expect('Content-Type', /application\/json/)
 

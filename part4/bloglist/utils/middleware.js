@@ -31,6 +31,9 @@ const userExtractor = async (request, response, next) => {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     //console.log('decodedToken: ', decodedToken)
     request.user = await User.findById(decodedToken.id)
+    if (!request.user) {
+      return response.status(401).json({ error: 'unknown user'})
+    }
   }
   next()
 }
