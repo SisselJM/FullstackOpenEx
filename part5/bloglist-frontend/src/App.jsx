@@ -50,7 +50,7 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       //console.log('Wrong credentials')
-      setNotification('Wrong credentials')
+      setNotification('Wrong username or password')
     }
   }
 
@@ -134,14 +134,14 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
         {loginForm()}
-        <Notification message={errorMessage} />
+        <p><Notification message={errorMessage} /></p>
       </div>
     )
   }
   return (
     <div>
       <h2>Blogs</h2>
-      <Notification message={errorMessage} />
+      <p><Notification message={errorMessage} /></p>
 
       <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
