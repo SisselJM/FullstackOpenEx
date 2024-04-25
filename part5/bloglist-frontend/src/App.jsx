@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -9,6 +10,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [newBlog, setNewBlog] = useState({})
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -25,9 +27,16 @@ const App = () => {
     }
   }, [])
 
+  const setNotification = (text) => {
+    setErrorMessage(text)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
+    //console.log('logging in with', username, password)
     try {
       const user = await loginService.login({
         username, password,
@@ -40,7 +49,8 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log('Wrong credentials')
+      //console.log('Wrong credentials')
+      setNotification('Wrong credentials')
     }
   }
 
@@ -77,7 +87,7 @@ const App = () => {
 
   const addBlog = (event) => {
     event.preventDefault()
-    console.log('Add')
+    //console.log('Add')
     const blogObject = {
       title: newBlog.title,
       author: newBlog.author,
@@ -88,10 +98,12 @@ const App = () => {
       .then(blog => {
         //console.log('blog created. ', blog)
         setBlogs(blogs.concat(blog))
+        setNotification('Blog created')
         setNewBlog({ title: '', author: '', url: ''})
       })
       .catch(error => {
-        console.log('Something went wrong: ', error)
+        //console.log('Something went wrong: ', error)
+        setNotification('Something went wrong')
       })
   }
 
@@ -122,12 +134,15 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
         {loginForm()}
+        <Notification message={errorMessage} />
       </div>
     )
   }
   return (
     <div>
       <h2>Blogs</h2>
+      <Notification message={errorMessage} />
+
       <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
       <p>
