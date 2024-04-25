@@ -52,6 +52,21 @@ describe('when there is initially some items and one user saved', () => {
   })
 
   describe('addition of a new blog', () => {
+    //4.23
+    test('fails without token', async () => {
+      const newBlog = {
+          title: "My second blog",
+          author: "Newbie Blogger",
+          url: "http://my.blog.no/2",
+          likes: 2
+      }
+
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
+    })
+
     //4.10
     test('a valid blog can be added ', async () => {
       const newBlog = {
