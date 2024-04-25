@@ -8,7 +8,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [newBlog, setNewBlog] = useState('')
+  const [newBlog, setNewBlog] = useState({})
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -86,9 +86,9 @@ const App = () => {
     blogService
       .create(blogObject)
       .then(blog => {
-        console.log('blog created. ', blog)
+        //console.log('blog created. ', blog)
         setBlogs(blogs.concat(blog))
-        setNewBlog('')
+        setNewBlog({ title: '', author: '', url: ''})
       })
       .catch(error => {
         console.log('Something went wrong: ', error)
