@@ -87,39 +87,18 @@ const App = () => {
     </form>      
   )
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    //console.log('Add')
-    const blogObject = {
-      title: newBlog.title,
-      author: newBlog.author,
-      url: newBlog.url
-    }
+  const addBlog = (blogObject) => {
     blogService
       .create(blogObject)
       .then(blog => {
         //console.log('blog created. ', blog)
         setBlogs(blogs.concat(blog))
         setNotification('Blog created')
-        setNewBlog({ title: '', author: '', url: ''})
       })
       .catch(error => {
         //console.log('Something went wrong: ', error)
         setNotification('Something went wrong')
       })
-  }
-
-  const handleBlogChange = async (event) => {
-    //console.log('Change...', event.target.value)
-    setNewBlog({ title: event.target.value, author: newBlog.author, url: newBlog.url })
-  }
-
-  const handleAuthorChange = async (event) => {
-    setNewBlog({ author: event.target.value, title: newBlog.title, url: newBlog.url })
-  }
-
-  const handleUrlChange = async (event) => {
-    setNewBlog({ url: event.target.value, title: newBlog.title, author: newBlog.author })
   }
 
   if (user === null) {
@@ -139,15 +118,7 @@ const App = () => {
       <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
       <Togglable buttonLabel="New blog">
-        <NewBlogForm
-            handleSubmit={addBlog}
-            title={newBlog.title}
-            author={newBlog.author}
-            url={newBlog.url}
-            handleBlogChange={handleBlogChange}
-            handleAuthorChange={handleAuthorChange}
-            handleUrlChange={handleUrlChange}
-            />
+        <NewBlogForm createBlog={addBlog} />
       </Togglable>
 
       <p>
