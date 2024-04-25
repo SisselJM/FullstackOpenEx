@@ -10,6 +10,17 @@ const bcrypt = require('bcrypt')
 
 const api = supertest(app)
 
+const getToken = async () => {
+  const login = await api
+    .post('/api/login')
+    .send({
+      "username": "root",
+      "password": "sekret"
+    })
+    .expect(200)
+  return `Bearer ${login.body.token}`
+}
+
 describe('when there is initially some items and one user saved', () => {
 
   beforeEach(async () => {
@@ -76,19 +87,7 @@ describe('when there is initially some items and one user saved', () => {
           likes: 2
       }
 
-      const user = 
-      {
-        "username": "root",
-        "password": "sekret"
-      }
-      const login = await api
-        .post('/api/login')
-        .send(user)
-        .expect(200)
-        
-      //console.log('login: ', login.body)
-      const token = `Bearer ${login.body.token}`
-      //console.log('token: ', token)
+      const token = await getToken()      
       await api
         .post('/api/blogs')
         .send(newBlog)
@@ -114,9 +113,11 @@ describe('when there is initially some items and one user saved', () => {
           url: "http://my.blog.no/2"
       }
 
+      const token = await getToken()    
       const response = await api
         .post('/api/blogs')
         .send(newBlog)
+        .set({ Authorization: token })
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
@@ -136,23 +137,26 @@ describe('when there is initially some items and one user saved', () => {
   //4.12
   describe('missing request data, returns 400 Bad request', () => {
     test('Title is missing', async () => {
-
+      const token = await getToken()
       await api
         .post('/api/blogs')
         .send({
           author: "Newbie Blogger",
           url: "http://my.blog.no/2"
         })
+        .set({ Authorization: token })
         .expect(400)
     }),
     test('Url is missing', async () => {
 
+      const token = await getToken()
       await api
         .post('/api/blogs')
         .send({
           title: "The blog",
           author: "Newbie Blogger"
         })
+        .set({ Authorization: token })
         .expect(400)
     })
     
@@ -210,8 +214,10 @@ describe('when there is initially some items and one user saved', () => {
       const itemsAtStart = await helper.blogsInDb()
       const itemToDelete = itemsAtStart[0]
 
+      const token = await getToken()
       await api
         .delete(`/api/blogs/${itemToDelete.id}`)
+        .set({ Authorization: token })
         .expect(204)
 
       const itemsAtEnd = await helper.blogsInDb()

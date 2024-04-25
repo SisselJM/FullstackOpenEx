@@ -32,6 +32,7 @@ const userExtractor = async (request, response, next) => {
     //console.log('decodedToken: ', decodedToken)
     request.user = await User.findById(decodedToken.id)
     if (!request.user) {
+      console.log('unknown user, id ', decodedToken.id)
       return response.status(401).json({ error: 'unknown user'})
     }
   }
