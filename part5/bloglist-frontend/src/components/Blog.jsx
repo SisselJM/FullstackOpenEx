@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, addLike }) => {
   const [detailsVisible, setDetailsVisible] = useState(false) //controls if the details are being displayed or not
 
   const showWhenVisible = { display: detailsVisible ? '' : 'none' }
@@ -25,7 +25,7 @@ const Blog = ({ blog }) => {
       </div>
       <div style={showWhenVisible}>
         {blog.url}<br />
-        likes {blog.likes} <button>like</button><br />
+        likes {blog.likes} <button onClick={addLike}>like</button><br />
         {blog.creator ? blog.creator.name : ''}<br />
       </div>
    

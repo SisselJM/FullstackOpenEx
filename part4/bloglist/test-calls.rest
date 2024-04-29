@@ -19,6 +19,21 @@ GET http://localhost:3003/api/blogs/
 ### Get 1
 GET http://localhost:3003/api/blogs/662231df88a9e42078803f02
 
+### Get 1
+GET http://localhost:3003/api/blogs/6628bf31c92540b37919cdbc
+
+### update
+PUT http://localhost:3003/api/blogs/6628bf31c92540b37919cdbc HTTP/1.1 
+content-type: application/json
+
+{
+  "user": "6628bee6dcfbc1401d87f956",
+  "likes": 124,
+  "author": "Number 1",
+  "title": "The Best Blog",
+  "url": "https://one.com/blog/"
+}
+
 ### Delete blog - 400 only its creator can delete a blog
 DELETE http://localhost:3003/api/blogs/662948624a5ca21a6a15fcb4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJsb2dnZXIxIiwiaWQiOiI2NjI4YmVlNmRjZmJjMTQwMWQ4N2Y5NTYiLCJpYXQiOjE3MTM5NjQyNjN9.m2xavYJhcptx8kOMoqcrq_d37mMixhi9cDBHhdCnnsg

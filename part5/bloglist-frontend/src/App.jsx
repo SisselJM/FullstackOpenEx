@@ -100,6 +100,26 @@ const App = () => {
       })
   }
 
+  const addLike = (blog) => {
+    console.log('Add like', ' likes before: ', blog.likes)
+
+    blog.likes += 1
+    blog.creator = blog.creator.id
+    console.log('likes after: ', blog.likes)
+
+    blogService
+      .update(blog)
+      .then(blogUpdated => {
+        console.log('blog updated. ', blogUpdated)
+        //replace/update? setBlogs(blogs.concat(blogUpdated))
+        setNotification('Blog updated')
+      })
+      .catch(error => {
+        console.log('Something went wrong: ', error)
+        setNotification('Something went wrong')
+      })
+  }
+
   if (user === null) {
     return (
       <div>
@@ -122,7 +142,7 @@ const App = () => {
 
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} addLike={() => addLike(blog)} />
         )}
       </div>
     </div>
