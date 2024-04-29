@@ -94,7 +94,7 @@ const App = () => {
         setBlogs(blogs.concat(blog))
         setNotification('Blog created')
       })
-      .catch(error => {
+      .catch(() => {
         //console.log('Something went wrong: ', error)
         setNotification('Something went wrong')
       })
@@ -113,7 +113,7 @@ const App = () => {
         //console.log('blog updated. ', blogUpdated)
         setBlogs(blogs.map(b => b.id !== blog.id ? b : blogUpdated))
       })
-      .catch(error => {
+      .catch(() => {
         //console.log('Something went wrong: ', error)
         setNotification('Something went wrong')
       })
@@ -127,7 +127,7 @@ const App = () => {
         .then(() => {
           setBlogs(blogs.filter(b => b.id !== id))
         })
-        .catch(error => {
+        .catch(() => {
           //console.log('Something went wrong: ', error)
           setNotification('Something went wrong')
         })
