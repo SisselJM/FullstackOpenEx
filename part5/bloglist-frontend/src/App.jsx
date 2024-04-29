@@ -103,13 +103,12 @@ const App = () => {
   const addLike = (blog) => {
     //console.log('Add like', ' likes before: ', blog.likes)
 
-    let blogToUpdate = blog
-    blogToUpdate.likes += 1
-    blogToUpdate.creator = blog.creator.id
+    blog.likes += 1
+    blog.creator = blog.creator.id
     //console.log('likes after: ', blog.likes)
 
     blogService
-      .update(blogToUpdate)
+      .update(blog)
       .then(blogUpdated => {
         //console.log('blog updated. ', blogUpdated)
         setBlogs(blogs.map(b => b.id !== blog.id ? b : blogUpdated))
