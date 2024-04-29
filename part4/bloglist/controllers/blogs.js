@@ -57,7 +57,10 @@ blogsRouter.put('/:id', async (request, response, next) => {
     likes: body.likes
   }
   const updated = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-  response.status(200).json(updated)
+  //exercise 5.8 return creator info after update
+  const item = await Blog.findById(request.params.id)
+    .populate('creator', { username: 1, name: 1 })
+  response.status(200).json(item)
 })
 
 blogsRouter.delete('/:id', async (request, response) => {

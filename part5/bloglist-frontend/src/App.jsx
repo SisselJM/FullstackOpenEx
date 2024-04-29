@@ -101,21 +101,21 @@ const App = () => {
   }
 
   const addLike = (blog) => {
-    console.log('Add like', ' likes before: ', blog.likes)
+    //console.log('Add like', ' likes before: ', blog.likes)
 
-    blog.likes += 1
-    blog.creator = blog.creator.id
-    console.log('likes after: ', blog.likes)
+    let blogToUpdate = blog
+    blogToUpdate.likes += 1
+    blogToUpdate.creator = blog.creator.id
+    //console.log('likes after: ', blog.likes)
 
     blogService
-      .update(blog)
+      .update(blogToUpdate)
       .then(blogUpdated => {
-        console.log('blog updated. ', blogUpdated)
-        //replace/update? setBlogs(blogs.concat(blogUpdated))
-        setNotification('Blog updated')
+        //console.log('blog updated. ', blogUpdated)
+        setBlogs(blogs.map(b => b.id !== blog.id ? b : blogUpdated))
       })
       .catch(error => {
-        console.log('Something went wrong: ', error)
+        //console.log('Something went wrong: ', error)
         setNotification('Something went wrong')
       })
   }
