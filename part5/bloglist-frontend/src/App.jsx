@@ -119,16 +119,19 @@ const App = () => {
       })
   }
 
-  const deleteBlog = (id) => {
-    blogService
-      .deleteBlog(id)
-      .then(() => {
-        setBlogs(blogs.filter(b => b.id !== id))
-      })
-      .catch(error => {
-        //console.log('Something went wrong: ', error)
-        setNotification('Something went wrong')
-      })
+  const deleteBlog = (blog) => {
+    const id = blog.id
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      blogService
+        .deleteBlog(id)
+        .then(() => {
+          setBlogs(blogs.filter(b => b.id !== id))
+        })
+        .catch(error => {
+          //console.log('Something went wrong: ', error)
+          setNotification('Something went wrong')
+        })
+    }
   }
 
   if (user === null) {
@@ -153,7 +156,7 @@ const App = () => {
 
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} addLike={() => addLike(blog)} deleteBlog={() => deleteBlog(blog.id)} user={user} />
+          <Blog key={blog.id} blog={blog} addLike={() => addLike(blog)} deleteBlog={() => deleteBlog(blog)} user={user} />
         )}
       </div>
     </div>
