@@ -13,6 +13,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
+  const [loginVisible, setLoginVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -111,27 +112,36 @@ const App = () => {
     }
   }
 
-  if (user === null) {
+  const loginForm = () => {
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
     return (
       <div>
-        <h2>Log in to application</h2>
-        <LoginForm 
-          handleLogin={handleLogin}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          username={username}
-          password={password}
-        
-        />
-        <Notification message={errorMessage} />
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>log in</button>
+        </div>
+        <div style={showWhenVisible}>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </div>
       </div>
     )
   }
+
   return (
     <div>
       <h2>Blogs</h2>
       <Notification message={errorMessage} />
 
+      {!user && loginForm()}
+      {user && <div>
       <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
       <Togglable buttonLabel="New blog">
@@ -143,6 +153,8 @@ const App = () => {
           <Blog key={blog.id} blog={blog} addLike={() => addLike(blog)} deleteBlog={() => deleteBlog(blog)} user={user} />
         )}
       </div>
+      </div>
+    }
     </div>
   )
 }
