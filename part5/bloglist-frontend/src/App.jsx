@@ -105,14 +105,14 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
         {loginForm()}
-        <p><Notification message={errorMessage} /></p>
+        <Notification message={errorMessage} />
       </div>
     )
   }
   return (
     <div>
       <h2>Blogs</h2>
-      <p><Notification message={errorMessage} /></p>
+      <Notification message={errorMessage} />
 
       <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
@@ -120,11 +120,11 @@ const App = () => {
         <NewBlogForm createBlog={addBlog} />
       </Togglable>
 
-      <p>
+      <div>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
-      </p>
+      </div>
     </div>
   )
 }
