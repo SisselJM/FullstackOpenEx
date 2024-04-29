@@ -119,6 +119,18 @@ const App = () => {
       })
   }
 
+  const deleteBlog = (id) => {
+    blogService
+      .deleteBlog(id)
+      .then(() => {
+        setBlogs(blogs.filter(b => b.id !== id))
+      })
+      .catch(error => {
+        //console.log('Something went wrong: ', error)
+        setNotification('Something went wrong')
+      })
+  }
+
   if (user === null) {
     return (
       <div>
@@ -141,7 +153,7 @@ const App = () => {
 
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} addLike={() => addLike(blog)} />
+          <Blog key={blog.id} blog={blog} addLike={() => addLike(blog)} deleteBlog={() => deleteBlog(blog.id)} />
         )}
       </div>
     </div>

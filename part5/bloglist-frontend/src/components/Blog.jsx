@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, addLike }) => {
+const Blog = ({ blog, addLike, deleteBlog }) => {
   const [detailsVisible, setDetailsVisible] = useState(false) //controls if the details are being displayed or not
 
   const showWhenVisible = { display: detailsVisible ? '' : 'none' }
@@ -27,6 +27,8 @@ const Blog = ({ blog, addLike }) => {
         {blog.url}<br />
         likes {blog.likes} <button onClick={addLike}>like</button><br />
         {blog.creator ? blog.creator.name : ''}<br />
+        {/* button for deleting a blog post only if the blog post was added by the user */}
+        <button onClick={deleteBlog}>Remove</button>
       </div>
    
     </div>
