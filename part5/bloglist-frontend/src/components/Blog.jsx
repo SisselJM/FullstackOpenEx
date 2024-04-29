@@ -4,7 +4,7 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
   const [detailsVisible, setDetailsVisible] = useState(false) //controls if the details are being displayed or not
 
   const showWhenVisible = { display: detailsVisible ? '' : 'none' }
-  const showDelete = { display: blog.creator && blog.creator.username === user.username ? '' : 'none' }
+  const showDelete = { display: user && blog.creator && blog.creator.username === user.username ? '' : 'none' } //only if blog post was added by the user
 
   const toggleVisibility = () => {
     setDetailsVisible(!detailsVisible)
@@ -28,7 +28,6 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
         {blog.url}<br />
         likes {blog.likes} <button onClick={addLike}>like</button><br />
         {blog.creator ? blog.creator.name : ''}<br />
-        {/* TODO button for deleting a blog post only if the blog post was added by the user */}
         <div style={showDelete}>
           <button onClick={deleteBlog}>Remove</button>
         </div>
