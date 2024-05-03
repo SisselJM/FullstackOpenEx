@@ -20,8 +20,8 @@ test('renders content', () => {
   expect(div).toHaveStyle('display: none')
 })
 
-/* 5.14 checks that the blog's URL and number of likes are shown when the button controlling the shown details has been clicked
-test('Click', async () => {
+// 5.14 checks that the blog's URL and number of likes are shown when the button controlling the shown details has been clicked
+test('Visible after Click', async () => {
   const blog = {
     title: 'This blog',
     author: 'Michael Blog',
@@ -31,13 +31,13 @@ test('Click', async () => {
   
   const mockHandler = vi.fn()
 
-  render(<Blog blog={blog} />)
+  const { container } = render(<Blog blog={blog} toggleVisibility={mockHandler} />)
 
   const user = userEvent.setup()
   const button = screen.getByText('view')
+  //console.log('button: ', button)
   await user.click(button)
 
-  //expect(mockHandler.mock.calls).toHaveLength(1)
+  const div = container.querySelector('.togglableContent')
+  expect(div).not.toHaveStyle('display: none')
 })
-toggleVisibility={mockHandler}, men den er intern i Blog
-*/
