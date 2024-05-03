@@ -20,8 +20,8 @@ test('renders content', () => {
   expect(div).toHaveStyle('display: none')
 })
 
-// 5.14 checks that the blog's URL and number of likes are shown when the button controlling the shown details has been clicked
-test('Visible after Click', async () => {
+//5.14
+test('The blogs URL and number of likes are Visible after Click', async () => {
   const blog = {
     title: 'This blog',
     author: 'Michael Blog',
@@ -40,4 +40,29 @@ test('Visible after Click', async () => {
 
   const div = container.querySelector('.togglableContent')
   expect(div).not.toHaveStyle('display: none')
+})
+
+//5.15
+test('Click twice: the event handler the component received as props is called twice', async () => {
+  const blog = {
+    title: 'This blog',
+    author: 'Michael Blog',
+    url: 'www.blog.com',
+    likes: 5
+  }
+  
+  const mockHandler = vi.fn()
+
+  const { container } = render(<Blog blog={blog} toggleVisibility={mockHandler} />)
+
+  const user = userEvent.setup()
+  const button = screen.getByText('view')
+  await user.click(button)
+  const div = container.querySelector('.togglableContent')
+  expect(div).not.toHaveStyle('display: none')
+
+  const buttonHide = screen.getByText('hide')
+  await user.click(buttonHide)
+  const divHidden = container.querySelector('.togglableContent')
+  expect(divHidden).toHaveStyle('display: none')
 })
