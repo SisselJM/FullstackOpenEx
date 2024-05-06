@@ -1,7 +1,18 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
 
 describe('Blog app', () => {
-  beforeEach(async ({ page }) => {
+  beforeEach(async ({ page, request }) => {
+    // empty the db 
+    await request.post('http:localhost:3003/api/testing/reset')
+    // create a user for the backend 
+    await request.post('http://localhost:3003/api/users', {
+      data: {
+        name: 'The Best Blogger',
+        username: 'blogger1',
+        password: '12345678'
+      }
+    })
+
     await page.goto('http://localhost:5173')
   })
 
@@ -11,7 +22,7 @@ describe('Blog app', () => {
     //await expect(page.getByText('Note app, Department of Computer Science, University of Helsinki 2023')).toBeVisible()
   })
 
-  test('Login form is shown', async ({ page }) => {
+  test('Login form is shown and user can login', async ({ page }) => {
     await page.getByRole('button', { name: 'log in' }).click()
     //feiler fordi denne brukeren er i prod, ikke test
     await page.getByRole('textbox').first().fill('blogger1')
