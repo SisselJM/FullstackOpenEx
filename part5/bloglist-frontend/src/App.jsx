@@ -138,6 +138,7 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
+      <h3>Blog app, by Fullstack open</h3>
       <Notification message={errorMessage} />
 
       {!user && loginForm()}
