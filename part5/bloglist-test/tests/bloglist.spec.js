@@ -22,14 +22,26 @@ describe('Blog app', () => {
     //await expect(page.getByText('Note app, Department of Computer Science, University of Helsinki 2023')).toBeVisible()
   })
 
-  test('Login form is shown and user can login', async ({ page }) => {
-    await page.getByRole('button', { name: 'log in' }).click()
-    //feiler fordi denne brukeren er i prod, ikke test
-    await page.getByRole('textbox').first().fill('blogger1')
-    await page.getByRole('textbox').last().fill('12345678')
-    await page.getByRole('button', { name: 'login' }).click()
-  
-    await expect(page.getByText('The Best Blogger logged in')).toBeVisible()
+  describe('Login', () => {
+    test('succeeds with correct credentials', async ({ page }) => {
+      await page.getByRole('button', { name: 'log in' }).click()
+      await page.getByRole('textbox').first().fill('blogger1')
+      await page.getByRole('textbox').last().fill('12345678')
+      await page.getByRole('button', { name: 'login' }).click()
+    
+      await expect(page.getByText('The Best Blogger logged in')).toBeVisible()
+    })
+
+    test('fails with wrong credentials', async ({ page }) => {
+      await page.getByRole('button', { name: 'log in' }).click()
+      await page.getByRole('textbox').first().fill('blogger1')
+      await page.getByRole('textbox').last().fill('wrong')
+      await page.getByRole('button', { name: 'login' }).click()
+
+      await expect(page.getByText('wrong')).toBeVisible()
+    })
+  })
+
   })
 
 })
