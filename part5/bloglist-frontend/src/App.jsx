@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import NewBlogForm from './components/NewBlogForm'
 import LoginForm from './components/LoginForm'
@@ -14,6 +14,8 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
   const [loginVisible, setLoginVisible] = useState(false)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -65,6 +67,7 @@ const App = () => {
   }
 
   const addBlog = (blogObject) => {
+    blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
       .then(blog => {
@@ -145,7 +148,7 @@ const App = () => {
       {user && <div>
         <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
-        <Togglable buttonLabel="New blog">
+        <Togglable buttonLabel="New blog" ref={blogFormRef}>
           <NewBlogForm createBlog={addBlog} />
         </Togglable>
         <br />
