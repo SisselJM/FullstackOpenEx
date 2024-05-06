@@ -4,9 +4,9 @@ const { loginWith } = require('./helper')
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
     // empty the db 
-    await request.post('http:localhost:3003/api/testing/reset')
+    await request.post('/api/testing/reset')
     // create a user for the backend 
-    await request.post('http://localhost:3003/api/users', {
+    await request.post('/api/users', {
       data: {
         name: 'The Best Blogger',
         username: 'blogger1',
@@ -14,7 +14,7 @@ describe('Blog app', () => {
       }
     })
 
-    await page.goto('http://localhost:5173')
+    await page.goto('/')
   })
 
   test('front page can be opened', async ({ page }) => {
