@@ -20,7 +20,14 @@ describe('Blog app', () => {
   test('front page can be opened', async ({ page }) => {
     const locator = await page.getByText('Blogs')
     await expect(locator).toBeVisible()
-    //await expect(page.getByText('Note app, Department of Computer Science, University of Helsinki 2023')).toBeVisible()
+    await expect(page.getByText('Blog app, by Fullstack open')).toBeVisible()
+  })
+
+  test('Login button is shown', async ({ page }) => {
+    //The exercise is actually to ensure that the application displays the login form by default. 
+    //However, the application does not display the login form until the login button is displayed. 
+    const locator = await page.getByText('log in')
+    await expect(locator).toBeVisible()
   })
 
   describe('Login', () => {
