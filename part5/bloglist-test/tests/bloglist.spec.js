@@ -73,22 +73,12 @@ describe('Blog app', () => {
       })
 
       test('the blog is visible', async ({ page }) => {
-        /*
-        const blog1 = page.getByText('The First Blog', { exact: false })
-        console.log('blog1: ', blog1) 
-        const blog2 = page.getByText('a blog created by playwright', { exact: false })
-        console.log('blog2: ', blog2) 
-        */
-        //await expect(page.getByText('The list 0', { exact: false })).toBeVisible()
-        //feiler, så blogs er tom - await expect(page.getByText('The list 2', { exact: false })).toBeVisible()
-        // ok når jeg har opprettet 3 blogs i browser, og fjernet Blog.deleteMany fra backend, så det er Create som ikke funker
+        //await page.pause()
         await expect(page.getByText('The list 1', { exact: false })).toBeVisible()
         /*
         await expect(page.getByText('The First Blog', { exact: false })).toBeVisible()
         await expect(page.getByText('a blog created by playwright', { exact: false })).toBeVisible()
         */
-//        await expect(page.getByText('Test', { exact: false })).toBeDefined()
-        
       })
 
     })
