@@ -5,7 +5,6 @@ const loginWith = async (page, username, password)  => {
   await page.getByRole('button', { name: 'login' }).click()
 }
 
-//likes er ikke i form
 const createBlog = async ( page, title, author, url ) => {
   //await page.pause() //sjekk om blog liste vises
   await page.getByRole('button', { name: 'New blog' }).click()
@@ -20,4 +19,12 @@ const createBlog = async ( page, title, author, url ) => {
   await page.getByText(title, { exact: false }).waitFor()
 }
 
-export { loginWith, createBlog }
+// click view button to show details
+const showBlogDetails = async (page, text) => {
+  const blogText = await page.getByText(text, { exact: false })
+  const blogElement = await blogText.locator('..')      
+  await blogElement.getByRole('button', { name: 'view' }).click()
+  return blogElement
+}
+
+export { loginWith, createBlog, showBlogDetails }

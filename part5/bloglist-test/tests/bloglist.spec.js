@@ -1,5 +1,5 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith, createBlog } = require('./helper')
+const { loginWith, createBlog, showBlogDetails } = require('./helper')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -71,9 +71,7 @@ describe('Blog app', () => {
       //5.20 likes can be added (the only edit option that is in frontend).
       test('like can be added', async ({ page }) => {
         //click view button to show details, then like button
-        const blogText = await page.getByText('Existing blog', { exact: false })
-        const blogElement = await blogText.locator('..')      
-        await blogElement.getByRole('button', { name: 'view' }).click()
+        const blogElement = await showBlogDetails(page, 'Existing blog')
         await blogElement.getByRole('button', { name: 'like' }).click()
         await expect(page.getByText('likes 1', { exact: false })).toBeVisible()
       })
@@ -87,9 +85,7 @@ describe('Blog app', () => {
       const title = `Blog created by ${author}`
       await page.pause()
       await createBlog(page, title, author, 'www.blogs.no')
-      const blogText = await page.getByText(title, { exact: false })
-      const blogElement = await blogText.locator('..')      
-      await blogElement.getByRole('button', { name: 'view' }).click()
+      const blogElement = await showBlogDetails(page, title)
       await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
     })
 
