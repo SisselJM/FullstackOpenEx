@@ -1,5 +1,6 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith, createBlog, showBlogDetails } = require('./helper')
+const { loginWith, logout, createBlog, showBlogDetails } = require('./helper')
+const exp = require('constants')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -32,12 +33,12 @@ describe('Blog app', () => {
 
   describe('Login', () => {
     test('succeeds with correct credentials', async ({ page }) => {
-      await loginWith(page, 'blogger1', '12345678')
+      await loginWith(page, 'blogger1', '12345678', true)
       await expect(page.getByText('The Best Blogger logged in')).toBeVisible()
     })
 
     test('fails with wrong credentials', async ({ page }) => {
-      await loginWith(page, 'blogger1', 'wrong')
+      await loginWith(page, 'blogger1', 'wrong', true)
 
       await expect(page.getByText('wrong')).toBeVisible()
     })
@@ -47,7 +48,7 @@ describe('Blog app', () => {
     //because the execution of each test starts from the browser's "zero state", all changes made to the browser's state by the previous tests are reset.
     //so we need to log in again
     beforeEach(async ({ page, request }) => {
-      await loginWith(page, 'blogger1', '12345678')
+      await loginWith(page, 'blogger1', '12345678', true)
 /*tror ikke dette funker, kanskje 401 eller at blogs ikke blir oppdatert - url var required, endret nå
       await request.post('/api/blogs', {
         data: {
@@ -76,17 +77,36 @@ describe('Blog app', () => {
         await expect(page.getByText('likes 1', { exact: false })).toBeVisible()
       })
 
+    })
+
+  })
+
   describe('deleting blog', () => {
 
     //5.22 Make a test that ensures that only the user who added the blog sees the blog's delete button.
-    test('the user who added the blog sees the blogs delete button', async ({ page }) => {
+    test('only the user who added the blog sees the blogs delete button', async ({ page, request }) => {
       const author = 'blogger1'
-      await loginWith(page, author, '12345678')
+      await loginWith(page, author, '12345678', true)
       const title = `Blog created by ${author}`
-      await page.pause()
+      //await page.pause() //open dev tools and check if save runs ok
       await createBlog(page, title, author, 'www.blogs.no')
       const blogElement = await showBlogDetails(page, title)
       await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
+
+      await request.post('/api/users', {
+        data: {
+          name: 'The 2nd Best Blogger',
+          username: 'blogger2',
+          password: '12345678'
+        }
+      })
+      await logout(page)
+      await loginWith(page, 'blogger2', '12345678', false)
+
+      //details are open so no need to click 'view'
+      const blogText2 = page.getByText(title, { exact: false })
+      const blogElement2 = blogText2.locator('..')      
+      expect(blogElement2.getByRole('button', { name: 'Remove' }).isHidden())
     })
 
   })

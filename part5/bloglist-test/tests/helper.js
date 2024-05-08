@@ -1,8 +1,14 @@
-const loginWith = async (page, username, password)  => {
-  await page.getByRole('button', { name: 'log in' }).click()
+const loginWith = async (page, username, password, openLogin)  => {
+  if (openLogin) { //kan man sette default verdi?
+    await page.getByRole('button', { name: 'log in' }).click()
+  }
   await page.getByRole('textbox').first().fill(username)
   await page.getByRole('textbox').last().fill(password)
   await page.getByRole('button', { name: 'login' }).click()
+}
+
+const logout = async (page)  => {
+  await page.getByRole('button', { name: 'Logout' }).click()
 }
 
 const createBlog = async ( page, title, author, url ) => {
@@ -27,4 +33,4 @@ const showBlogDetails = async (page, text) => {
   return blogElement
 }
 
-export { loginWith, createBlog, showBlogDetails }
+export { loginWith, logout, createBlog, showBlogDetails }
