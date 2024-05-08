@@ -76,18 +76,14 @@ describe('Blog app', () => {
       })
       */
 
-      //5.20 likes can be added (the only edit option that is in frontend). Or do backend only?
+      //5.20 likes can be added (the only edit option that is in frontend).
       test('like can be added', async ({ page }) => {
-        //must click view button to show details and like button
-        //await page.pause()
+        //click view button to show details, then like button
         const blogText = await page.getByText('Existing blog', { exact: false })
-        //await page.pause()
-        /*
-        const otherNoteElement = await blogText.locator('..')
-      
-        await otherNoteElement.getByRole('button', { name: 'make not important' }).click()
-        await expect(otherNoteElement.getByText('make important')).toBeVisible()
-        */
+        const blogElement = await blogText.locator('..')      
+        await blogElement.getByRole('button', { name: 'view' }).click()
+        await blogElement.getByRole('button', { name: 'like' }).click()
+        await expect(page.getByText('likes 1', { exact: false })).toBeVisible()
       })
     })
 
