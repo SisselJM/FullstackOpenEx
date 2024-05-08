@@ -48,7 +48,7 @@ describe('Blog app', () => {
     //so we need to log in again
     beforeEach(async ({ page, request }) => {
       await loginWith(page, 'blogger1', '12345678')
-/*tror ikke dette funker, kanskje 401 eller at blogs ikke blir oppdatert
+/*tror ikke dette funker, kanskje 401 eller at blogs ikke blir oppdatert - url var required, endret nå
       await request.post('/api/blogs', {
         data: {
           title: 'The First Blog',
@@ -68,14 +68,6 @@ describe('Blog app', () => {
         await createBlog(page, 'Existing blog', 'Sam Blogman', 'www.blogs.se')
       })
 
-      /*trenger ikke denne testen - men sjekker om blog ble opprettet
-      test('the blog is visible', async ({ page }) => {
-        //await page.pause()
-        //await expect(page.getByText('The list 1', { exact: false })).toBeVisible()
-        await expect(page.getByText('A blog', { exact: false })).toBeVisible()
-      })
-      */
-
       //5.20 likes can be added (the only edit option that is in frontend).
       test('like can be added', async ({ page }) => {
         //click view button to show details, then like button
@@ -85,6 +77,20 @@ describe('Blog app', () => {
         await blogElement.getByRole('button', { name: 'like' }).click()
         await expect(page.getByText('likes 1', { exact: false })).toBeVisible()
       })
+
+  describe('deleting blog', () => {
+
+    //5.22 Make a test that ensures that only the user who added the blog sees the blog's delete button.
+    test('the user who added the blog sees the blogs delete button', async ({ page }) => {
+      const author = 'blogger1'
+      await loginWith(page, author, '12345678')
+      const title = `Blog created by ${author}`
+      await page.pause()
+      await createBlog(page, title, author, 'www.blogs.no')
+      const blogText = await page.getByText(title, { exact: false })
+      const blogElement = await blogText.locator('..')      
+      await blogElement.getByRole('button', { name: 'view' }).click()
+      await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
     })
 
   })

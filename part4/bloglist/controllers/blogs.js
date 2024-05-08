@@ -10,12 +10,17 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.get('/:id', async (request, response) => {
-  const item = await Blog.findById(request.params.id)
+  const item = await getItem(request.params.id)
   if (item) {
     response.json(item)
   } else {
     response.status(404).end()
   }
+})
+
+const getItem = (async (id) => {
+  return await Blog.findById(id)
+    .populate('creator', { username: 1, name: 1 })
 })
 
 blogsRouter.post('/', async (request, response) => {
@@ -42,10 +47,12 @@ blogsRouter.post('/', async (request, response) => {
 
   const savedBlog = await blog.save()
   
-  user.blogs = user.blogs.concat(savedBlog._id)
+  const id = savedBlog._id
+  user.blogs = user.blogs.concat(id)
   await user.save()
-  
-  response.status(201).json(savedBlog)
+
+  const item = await getItem(id)  //populate creator
+  response.status(201).json(item)
 })
 
 blogsRouter.put('/:id', async (request, response, next) => {
