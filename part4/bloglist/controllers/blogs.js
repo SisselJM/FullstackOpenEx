@@ -30,7 +30,8 @@ blogsRouter.post('/', async (request, response) => {
   const user = request.user
 
   const blog = new Blog(request.body)
-  if (!blog.title || !blog.url) {
+  if (!blog.title /*|| !blog.url*/) {
+    console.log(`Title is missing! ${blog}`)
     response.status(400).end()
     return
   }

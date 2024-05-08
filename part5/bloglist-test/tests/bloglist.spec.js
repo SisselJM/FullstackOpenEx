@@ -60,27 +60,35 @@ describe('Blog app', () => {
     test('a new blog can be created', async ({ page }) => {
       const title = 'playwright has created a blog' // avoid using "Blog created", will be displayed as Notification and may test on it
       await createBlog(page, title, 'Sam Blogman', 'www.blogs.se')
-      //viser ikke liste over blogs, viser fortsatt NewBlogForm - tom
-      //await page.pause()
-      //timeout: waiting for getByText('another blog created by playwright')
       await expect(page.getByText(title, { exact: false })).toBeVisible()
-      //will only pass the first time (ok hvis waitFor funker?)
     })
 
     describe('and a blog exists', () => {
       beforeEach(async ({ page }) => {
-        await createBlog(page, 'playwright has created a blog', 'Sam Blogman', 'www.blogs.se')
+        await createBlog(page, 'Existing blog', 'Sam Blogman', 'www.blogs.se')
       })
 
+      /*trenger ikke denne testen - men sjekker om blog ble opprettet
       test('the blog is visible', async ({ page }) => {
         //await page.pause()
-        await expect(page.getByText('The list 1', { exact: false })).toBeVisible()
+        //await expect(page.getByText('The list 1', { exact: false })).toBeVisible()
+        await expect(page.getByText('A blog', { exact: false })).toBeVisible()
+      })
+      */
+
+      //5.20 likes can be added (the only edit option that is in frontend). Or do backend only?
+      test('like can be added', async ({ page }) => {
+        //must click view button to show details and like button
+        //await page.pause()
+        const blogText = await page.getByText('Existing blog', { exact: false })
+        //await page.pause()
         /*
-        await expect(page.getByText('The First Blog', { exact: false })).toBeVisible()
-        await expect(page.getByText('a blog created by playwright', { exact: false })).toBeVisible()
+        const otherNoteElement = await blogText.locator('..')
+      
+        await otherNoteElement.getByRole('button', { name: 'make not important' }).click()
+        await expect(otherNoteElement.getByText('make important')).toBeVisible()
         */
       })
-
     })
 
   })
