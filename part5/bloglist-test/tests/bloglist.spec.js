@@ -90,21 +90,6 @@ describe('Blog app', () => {
         const topBlog = page.getByRole('listitem').first();
         console.log('topBlog: ', topBlog)
         await expect(topBlog.getByText(title2, { exact: false })).toBeVisible()
-        /*
-        // Select all items by a common selector
-        const items = await page.locator('.header').elementHandles();
-        //fikk 2 items her, men nå er det 0! så nå funker ingenting
-
-        const firstItemText = await items[0].innerText() //TypeError: Cannot read properties of undefined (reading 'innerText')
-        console.log('firstItemText', firstItemText)
-        expect(firstItemText).toContain(title2);
-
-        let firstItemText = ''
-        for (const item of items) {
-            firstItemText = await item.innerText()
-            break
-        }
-        */
       })
     })
 
