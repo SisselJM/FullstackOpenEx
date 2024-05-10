@@ -65,17 +65,31 @@ describe('Blog app', () => {
     })
 
     describe('and a blog exists', () => {
+      const title1 = 'Existing blog'
       beforeEach(async ({ page }) => {
-        await createBlog(page, 'Existing blog', 'Sam Blogman', 'www.blogs.se')
+        await createBlog(page, title1, 'Sam Blogman', 'www.blogs.se')
       })
 
       //5.20 likes can be added (the only edit option that is in frontend).
       test('like can be added', async ({ page }) => {
-        await addLike(page, 'Existing blog')
+        await addLike(page, title1, true)
         await expect(page.getByText('likes 1', { exact: false })).toBeVisible()
       })
 
       //5.23 Do a test that ensures that the blogs are arranged in the order according to the likes, the blog with the most likes first.
+      test('blogs are arranged in the order according to the likes', async ({ page }) => {
+        await addLike(page, title1, true)
+
+        const title2 = 'A new blog'
+        await createBlog(page, title2, 'Sam Blogman', 'www.blogs.se')
+        await addLike(page, title2, true)
+        await addLike(page, title2, false)
+        //refresh - is not sorted when like is added
+        await page.goto('/')
+        //await page.pause()
+        //TODO test at title2 kommer først hvordan tester man hva som kommer først?
+
+      })
     })
 
   })

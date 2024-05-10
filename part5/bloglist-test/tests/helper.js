@@ -30,16 +30,19 @@ bruker ikke tid på det!
 }
 
 // click view button to show details
-const showBlogDetails = async (page, text) => {
+const showBlogDetails = async (page, text, clickView) => {
   const blogText = await page.getByText(text, { exact: false })
-  const blogElement = await blogText.locator('..')      
-  await blogElement.getByRole('button', { name: 'view' }).click()
+  const blogElement = await blogText.locator('..')
+  if (clickView) {
+    await blogElement.getByRole('button', { name: 'view' }).click()
+  }
   return blogElement
 }
 
 //click blog's view and like button 
-const addLike = async (page, text) => {
-  const blogElement = await showBlogDetails(page, text)
+const addLike = async (page, text, clickView) => {
+
+  const blogElement = await showBlogDetails(page, text, clickView)
   await blogElement.getByRole('button', { name: 'like' }).click()  
 }
 
