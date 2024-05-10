@@ -86,8 +86,11 @@ describe('Blog app', () => {
         await addLike(page, title2, false)
         //refresh - is not sorted when like is added
         await page.goto('/')
+
+        const topBlog = page.getByRole('listitem').first();
+        console.log('topBlog: ', topBlog)
+        await expect(topBlog.getByText(title2, { exact: false })).toBeVisible()
         //await page.pause()
-        //TODO test at title2 kommer først hvordan tester man hva som kommer først?
 
       })
     })

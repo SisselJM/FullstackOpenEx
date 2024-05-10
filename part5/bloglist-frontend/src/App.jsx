@@ -157,9 +157,13 @@ const App = () => {
 
       <div>
         {/* For testing <div>The list {blogs.length}</div> */}
+        <ul>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} addLike={() => addLike(blog)} deleteBlog={() => deleteBlog(blog)} user={user} />
+          <li key={blog.id}>
+            <Blog key={blog.id} blog={blog} addLike={() => addLike(blog)} deleteBlog={() => deleteBlog(blog)} user={user} />
+          </li>
         )}
+        </ul>
       </div>
     </div>
   )
