@@ -37,4 +37,10 @@ const showBlogDetails = async (page, text) => {
   return blogElement
 }
 
-export { loginWith, logout, createBlog, showBlogDetails }
+//click blog's view and like button 
+const addLike = async (page, text) => {
+  const blogElement = await showBlogDetails(page, text)
+  await blogElement.getByRole('button', { name: 'like' }).click()  
+}
+
+export { loginWith, logout, createBlog, showBlogDetails, addLike }

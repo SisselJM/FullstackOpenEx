@@ -1,5 +1,5 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith, logout, createBlog, showBlogDetails } = require('./helper')
+const { loginWith, logout, createBlog, showBlogDetails, addLike } = require('./helper')
 const exp = require('constants')
 
 describe('Blog app', () => {
@@ -71,12 +71,11 @@ describe('Blog app', () => {
 
       //5.20 likes can be added (the only edit option that is in frontend).
       test('like can be added', async ({ page }) => {
-        //click view button to show details, then like button
-        const blogElement = await showBlogDetails(page, 'Existing blog')
-        await blogElement.getByRole('button', { name: 'like' }).click()
+        await addLike(page, 'Existing blog')
         await expect(page.getByText('likes 1', { exact: false })).toBeVisible()
       })
 
+      //5.23 Do a test that ensures that the blogs are arranged in the order according to the likes, the blog with the most likes first.
     })
 
   })
