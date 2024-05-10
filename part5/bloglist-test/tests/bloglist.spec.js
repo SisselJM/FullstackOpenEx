@@ -88,7 +88,18 @@ describe('Blog app', () => {
       await loginWith(page, author, '12345678', true)
       await createBlog(page, title, author, 'www.blogs.no')
     })
-    //5.22 Make a test that ensures that only the user who added the blog sees the blog's delete button.
+
+    //5.21 
+    test('the user who added the blog can delete the blog', async ({ page }) => {
+      const blogElement = await showBlogDetails(page, title)
+      await page.pause()
+      page.on('dialog', dialog => dialog.accept()); //window.confirm
+      await blogElement.getByRole('button', { name: 'Remove' }).click()
+
+      await expect(page.locator(`text=${title}`)).toHaveCount(0)
+    })
+
+    //5.22 
     test('only the user who added the blog sees the blogs delete button', async ({ page, request }) => {
       const blogElement = await showBlogDetails(page, title)
       await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
@@ -108,15 +119,6 @@ describe('Blog app', () => {
       const blogElement2 = blogText2.locator('..')      
       expect(blogElement2.getByRole('button', { name: 'Remove' }).isHidden())
     })
-
-    //5.21 Make a test that ensures that the user who added the blog can delete the blog. 
-    test('the user who added the blog can delete the blog', async ({ page }) => {
-      const blogElement = await showBlogDetails(page, title)
-      await page.pause()
-      await blogElement.getByRole('button', { name: 'Remove' }).click()
-    //TODO If you use the window.confirm dialog in the delete operation, you may have to Google how to use the dialog in the Playwright tests.
-    //sjekk at den forsvinner
-  })
 
   })
 
