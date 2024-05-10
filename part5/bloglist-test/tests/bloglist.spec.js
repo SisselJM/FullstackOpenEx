@@ -82,16 +82,11 @@ describe('Blog app', () => {
   })
 
   describe('deleting blog', () => {
-
-    //5.22 Make a test that ensures that only the user who added the blog sees the blog's delete button.
-    test('only the user who added the blog sees the blogs delete button', async ({ page, request }) => {
-      const author = 'blogger1'
+    const author = 'blogger1'
+    const title = `Blog created by ${author}`
+    beforeEach(async ({ page, request }) => {
       await loginWith(page, author, '12345678', true)
-      const title = `Blog created by ${author}`
-      //await page.pause() //open dev tools and check if save runs ok
       await createBlog(page, title, author, 'www.blogs.no')
-      const blogElement = await showBlogDetails(page, title)
-      await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
 
       await request.post('/api/users', {
         data: {
@@ -100,6 +95,12 @@ describe('Blog app', () => {
           password: '12345678'
         }
       })
+    })
+    //5.22 Make a test that ensures that only the user who added the blog sees the blog's delete button.
+    test('only the user who added the blog sees the blogs delete button', async ({ page, request }) => {
+      const blogElement = await showBlogDetails(page, title)
+      await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
+
       await logout(page)
       await loginWith(page, 'blogger2', '12345678', false)
 
