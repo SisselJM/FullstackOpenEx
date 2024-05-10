@@ -97,7 +97,7 @@ describe('Blog app', () => {
       })
     })
     //5.22 Make a test that ensures that only the user who added the blog sees the blog's delete button.
-    test('only the user who added the blog sees the blogs delete button', async ({ page, request }) => {
+    test('only the user who added the blog sees the blogs delete button', async ({ page }) => {
       const blogElement = await showBlogDetails(page, title)
       await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
 
@@ -109,6 +109,16 @@ describe('Blog app', () => {
       const blogElement2 = blogText2.locator('..')      
       expect(blogElement2.getByRole('button', { name: 'Remove' }).isHidden())
     })
+
+    //her står det ikke only, så trenger ikke teste med flere brukere - kan flytte post/user til test 5.22
+    //5.21 Make a test that ensures that the user who added the blog can delete the blog. 
+    test('the user who added the blog can delete the blog', async ({ page }) => {
+      const blogElement = await showBlogDetails(page, title)
+      await page.pause()
+      await blogElement.getByRole('button', { name: 'Remove' }).click()
+    //TODO If you use the window.confirm dialog in the delete operation, you may have to Google how to use the dialog in the Playwright tests.
+    //sjekk at den forsvinner
+  })
 
   })
 
