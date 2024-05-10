@@ -21,8 +21,12 @@ const createBlog = async ( page, title, author, url ) => {
   //await page.pause()
   await page.getByRole('button', { name: 'save' }).click()
   //waitFor, to make sure the created not rendered, and avoid unexpected behaviours
-  //OBS if save fails, the blog (title) will not be displayed - timeout
-  await page.getByText(title, { exact: false }).waitFor()
+  //OBS if save fails, the blog (title) will not be displayed - timeout. Hadde vært bra å kunne sjekke om save feiler og if..
+  await page.getByText(title, { exact: false }).waitFor() 
+  /* when running all tests, one test may fail: locator.waitFor: Test timeout of 30000ms exceeded. - waiting for getByText('Existing blog') to be visible
+running the test separately ok, and running all tests again gets the same error on another test
+bruker ikke tid på det!
+  */
 }
 
 // click view button to show details
