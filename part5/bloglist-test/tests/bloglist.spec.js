@@ -104,8 +104,7 @@ describe('Blog app', () => {
 
     //5.21 
     test('the user who added the blog can delete the blog', async ({ page }) => {
-      const blogElement = await showBlogDetails(page, title)
-      await page.pause()
+      const blogElement = await showBlogDetails(page, title, true)
       page.on('dialog', dialog => dialog.accept()); //window.confirm
       await blogElement.getByRole('button', { name: 'Remove' }).click()
 
@@ -114,7 +113,7 @@ describe('Blog app', () => {
 
     //5.22 
     test('only the user who added the blog sees the blogs delete button', async ({ page, request }) => {
-      const blogElement = await showBlogDetails(page, title)
+      const blogElement = await showBlogDetails(page, title, true)
       await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
 
       await logout(page)
