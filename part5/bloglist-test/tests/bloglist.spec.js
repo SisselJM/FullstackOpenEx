@@ -84,10 +84,16 @@ describe('Blog app', () => {
   describe('deleting blog', () => {
     const author = 'blogger1'
     const title = `Blog created by ${author}`
-    beforeEach(async ({ page, request }) => {
+    beforeEach(async ({ page }) => {
       await loginWith(page, author, '12345678', true)
       await createBlog(page, title, author, 'www.blogs.no')
+    })
+    //5.22 Make a test that ensures that only the user who added the blog sees the blog's delete button.
+    test('only the user who added the blog sees the blogs delete button', async ({ page, request }) => {
+      const blogElement = await showBlogDetails(page, title)
+      await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
 
+      await logout(page)
       await request.post('/api/users', {
         data: {
           name: 'The 2nd Best Blogger',
@@ -95,13 +101,6 @@ describe('Blog app', () => {
           password: '12345678'
         }
       })
-    })
-    //5.22 Make a test that ensures that only the user who added the blog sees the blog's delete button.
-    test('only the user who added the blog sees the blogs delete button', async ({ page }) => {
-      const blogElement = await showBlogDetails(page, title)
-      await expect(blogElement.getByRole('button', { name: 'Remove' })).toBeVisible()
-
-      await logout(page)
       await loginWith(page, 'blogger2', '12345678', false)
 
       //details are open so no need to click 'view'
@@ -110,7 +109,6 @@ describe('Blog app', () => {
       expect(blogElement2.getByRole('button', { name: 'Remove' }).isHidden())
     })
 
-    //her står det ikke only, så trenger ikke teste med flere brukere - kan flytte post/user til test 5.22
     //5.21 Make a test that ensures that the user who added the blog can delete the blog. 
     test('the user who added the blog can delete the blog', async ({ page }) => {
       const blogElement = await showBlogDetails(page, title)
